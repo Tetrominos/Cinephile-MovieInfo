@@ -26,6 +26,9 @@ package com.example.dmajc.cinephile_movieinfo.utilities;
         import java.net.URL;
         import java.util.Scanner;
 
+// https://api.themoviedb.org/3/movie/550?api_key=22fae8008755665b5b342cdb43e177af
+// 22fae8008755665b5b342cdb43e177af
+
 /**
  * These utilities will be used to communicate with the weather servers.
  */
@@ -33,13 +36,15 @@ public final class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String DYNAMIC_WEATHER_URL =
-            "https://andfun-weather.udacity.com/weather";
+    //private static final String DYNAMIC_WEATHER_URL =
+    //      "https://andfun-weather.udacity.com/weather";
 
     private static final String STATIC_WEATHER_URL =
-            "https://andfun-weather.udacity.com/staticweather";
+            "https://api.themoviedb.org/3/search/multi";
 
-    private static final String FORECAST_BASE_URL = STATIC_WEATHER_URL;
+    private static final String TMDB_BASE_URL = STATIC_WEATHER_URL;
+
+    private static final String API_KEY = "22fae8008755665b5b342cdb43e177af";
 
     /*
      * NOTE: These values only effect responses from OpenWeatherMap, NOT from the fake weather
@@ -50,32 +55,21 @@ public final class NetworkUtils {
 
     /* The format we want our API to return */
     private static final String format = "json";
-    /* The units we want our API to return */
-    private static final String units = "metric";
-    /* The number of days we want our API to return */
-    private static final int numDays = 14;
 
-    final static String QUERY_PARAM = "q";
-    final static String LAT_PARAM = "lat";
-    final static String LON_PARAM = "lon";
-    final static String FORMAT_PARAM = "mode";
-    final static String UNITS_PARAM = "units";
-    final static String DAYS_PARAM = "cnt";
+    final static String QUERY_PARAM = "query";
+    final static String API_KEY_PARAM = "api_key";
 
     /**
-     * Builds the URL used to talk to the weather server using a location. This location is based
-     * on the query capabilities of the weather provider that we are using.
+     * Builds the URL used to talk to the TMBD server using a search query.
      *
-     * @param locationQuery The location that will be queried for.
-     * @return The URL to use to query the weather server.
+     * @param searchQuery The saerch query.
+     * @return The URL to use to query the TMDB server.
      */
-    public static URL buildUrl(String locationQuery) {
+    public static URL buildUrl(String searchQuery) {
         // COMPLETED (1) Fix this method to return the URL used to query Open Weather Map's API
-        Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                .appendQueryParameter(QUERY_PARAM, locationQuery)
-                .appendQueryParameter(FORMAT_PARAM, format)
-                .appendQueryParameter(UNITS_PARAM, units)
-                .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+        Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .appendQueryParameter(QUERY_PARAM, searchQuery)
                 .build();
 
         URL url = null;
@@ -113,6 +107,7 @@ public final class NetworkUtils {
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
+            Log.v(TAG, url.toString());
             InputStream in = urlConnection.getInputStream();
 
             Scanner scanner = new Scanner(in);
