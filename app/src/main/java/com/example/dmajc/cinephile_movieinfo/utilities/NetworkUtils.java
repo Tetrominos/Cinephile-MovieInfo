@@ -39,10 +39,13 @@ public final class NetworkUtils {
     //private static final String DYNAMIC_WEATHER_URL =
     //      "https://andfun-weather.udacity.com/weather";
 
-    private static final String STATIC_WEATHER_URL =
+    private static final String MULTI_SEARCH_URL =
             "https://api.themoviedb.org/3/search/multi";
 
-    private static final String TMDB_BASE_URL = STATIC_WEATHER_URL;
+    private static final String TMDB_BASE_URL = MULTI_SEARCH_URL;
+
+    private static final String TMDB_POPULAR_MOVIES_URL =
+            "https://api.themoviedb.org/3/movie/popular";
 
     private static final String API_KEY = "22fae8008755665b5b342cdb43e177af";
 
@@ -62,14 +65,12 @@ public final class NetworkUtils {
     /**
      * Builds the URL used to talk to the TMBD server using a search query.
      *
-     * @param searchQuery The saerch query.
      * @return The URL to use to query the TMDB server.
      */
-    public static URL buildUrl(String searchQuery) {
+    public static URL buildUrl() {
         // COMPLETED (1) Fix this method to return the URL used to query Open Weather Map's API
-        Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
+        Uri builtUri = Uri.parse(TMDB_POPULAR_MOVIES_URL).buildUpon()
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
-                .appendQueryParameter(QUERY_PARAM, searchQuery)
                 .build();
 
         URL url = null;
