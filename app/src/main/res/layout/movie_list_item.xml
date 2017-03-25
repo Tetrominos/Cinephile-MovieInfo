@@ -7,13 +7,33 @@
     android:layout_height="wrap_content">
 
     <!--adjustViewBounds="true" makes the height not go apeshit -->
-    <ImageView
-        android:id="@+id/iv_movie_item"
+
+    <android.support.percent.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/logan">
+        android:id="@+id/pl_movie_image">
 
-    </ImageView>
+        <ImageView
+            android:id="@+id/iv_movie_item"
+            app:layout_widthPercent="100%"
+            app:layout_aspectRatio="70%"
+            android:src="@drawable/logan"
+            android:scaleType="centerCrop">
+
+        </ImageView>
+
+    </android.support.percent.PercentFrameLayout>
+
+    <TextView
+        android:id="@+id/tv_movie_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/pl_movie_image"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif"
+        android:text="LOBO"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textAlignment="center"/>
 
 </RelativeLayout>

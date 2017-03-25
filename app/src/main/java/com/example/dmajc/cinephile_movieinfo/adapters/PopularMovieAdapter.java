@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.dmajc.cinephile_movieinfo.R;
@@ -58,9 +59,13 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         try {
             /*Drawable poster = new GetPosterFromUrl(movie).getPosterAsDrawable();
             holder.listItemImageView.setImageDrawable(poster);*/
+            int firstSpace = movie.indexOf(" ");
             String partialUrl = movie.substring(0, movie.indexOf(" "));
             String url = "https://image.tmdb.org/t/p/w500" + partialUrl;
+            String MovieName = movie.substring(movie.indexOf("-")+1, movie.indexOf("-", movie.indexOf("-") + 1));
+            holder.listItemTitleTextView.setText(MovieName);
             Glide.with(context).load(url).into(holder.listItemImageView);
+            Log.v(TAG, "image was set");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -77,11 +82,13 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     public class PopularMovieViewHolder extends RecyclerView.ViewHolder {
 
         public final ImageView listItemImageView;
+        public TextView listItemTitleTextView;
 
         public PopularMovieViewHolder(View itemView) {
             super(itemView);
 
             listItemImageView = (ImageView) itemView.findViewById(R.id.iv_movie_item);
+            listItemTitleTextView = (TextView) itemView.findViewById(R.id.tv_movie_item);
         }
     }
 
