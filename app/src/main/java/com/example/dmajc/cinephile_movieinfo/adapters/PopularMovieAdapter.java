@@ -57,27 +57,29 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
     @Override
     public void onBindViewHolder(PopularMovieViewHolder holder, int position) {
-        QueryResult movie = mMovieData.get(position);
+        final QueryResult movie = mMovieData.get(position);
+        final RelativeLayout relativeLayout = (RelativeLayout) holder.itemView.findViewById(R.id.rl_movie_item_info);
 
-        try {
-            holder.listItemTitleTextView.setText(movie.getName().trim());
-            holder.listItemYearTextView.setText("(" + movie.getReleaseDate().substring(0, movie.getReleaseDate().indexOf("-")) + ")");
-            Glide.with(context).load(movie.getImagePath()).into(holder.listItemImageView);
-            Log.v(TAG, "image was set");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        holder.listItemTitleTextView.setText(movie.getName().trim());
+        holder.listItemYearTextView.setText("(" + movie.getReleaseDate().substring(0, movie.getReleaseDate().indexOf("-")) + ")");
+        Glide.with(context).load(movie.getImagePath()).into(holder.listItemImageView);
+        Log.v(TAG, "image was set");
+        if(movie.isClicked()){
+            relativeLayout.setVisibility(View.VISIBLE);
+        } else if (!movie.isClicked()) {
+            relativeLayout.setVisibility(View.INVISIBLE);
         }
-        final PopularMovieViewHolder newHolder = holder;
-        /*holder.listItemImageView.setOnClickListener(new View.OnClickListener(){
+        holder.listItemImageView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if(newHolder.listItemRelativeLayout.getVisibility() == View.INVISIBLE) {
-                    newHolder.listItemRelativeLayout.setVisibility(View.VISIBLE);
-                } else {
-                    newHolder.listItemRelativeLayout.setVisibility(View.INVISIBLE);
+                movie.toggle();
+                if(movie.isClicked()){
+                    relativeLayout.setVisibility(View.VISIBLE);
+                } else if (!movie.isClicked()) {
+                    relativeLayout.setVisibility(View.INVISIBLE);
                 }
             }
-        });*/
+        });
     }
 
     @Override
@@ -101,7 +103,6 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
             listItemRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_movie_item_info);
             listItemYearTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_year);
         }
-
     }
 
     public void setMovieData(ArrayList<QueryResult> movieData) {

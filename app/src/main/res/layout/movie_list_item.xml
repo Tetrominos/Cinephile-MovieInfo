@@ -28,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_alignBottom="@id/pl_movie_image"
-        android:id="@+id/rl_movie_item_info">
+        android:id="@+id/rl_movie_item_info"
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/iv_movie_item_background"

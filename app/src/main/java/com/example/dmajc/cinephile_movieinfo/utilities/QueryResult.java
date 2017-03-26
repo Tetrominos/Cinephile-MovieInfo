@@ -16,6 +16,7 @@ public abstract class QueryResult {
     protected String name;
     protected String releaseDate;
     protected String mediaType;
+    boolean clicked;
 
     public String getImagePath() { return imagePath; }
     public int getId() { return id; }
@@ -23,5 +24,13 @@ public abstract class QueryResult {
     public ArrayList<Integer> getGenreIds() { return genreIds; }
     public String getReleaseDate() { return releaseDate; }
     public String getMediaType() { return mediaType; }
+    public boolean isClicked() { return clicked; }
+    public void toggle() {
+        if (clicked) {
+            clicked = false;
+        } else {
+            clicked = true;
+        }
+    }
 
 }

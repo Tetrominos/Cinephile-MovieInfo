@@ -15,5 +15,6 @@ public class MovieQueryResult extends QueryResult {
         this.id = id;
         this.genreIds = genreIds;
         this.releaseDate = releaseDate;
+        this.clicked = false;
     }
 }
