@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.dmajc.cinephile_movieinfo.adapters.PopularMovieAdapter;
@@ -26,7 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "Main Activity";
     private static final int NUM_LIST_ITEMS = 100;
@@ -41,18 +42,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
-        mPopularMoviesList = (RecyclerView) findViewById(R.id.popular_movies_rv);
+        if(null != savedInstanceState){
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        mPopularMoviesList.setLayoutManager(layoutManager);
+        } else {
+            /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
+            mPopularMoviesList = (RecyclerView) findViewById(R.id.popular_movies_rv);
 
-        mPopularMoviesList.setHasFixedSize(true);
+            GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+            mPopularMoviesList.setLayoutManager(layoutManager);
 
-        mAdapter = new PopularMovieAdapter(this);
+            mPopularMoviesList.setHasFixedSize(true);
 
-        mPopularMoviesList.setAdapter(mAdapter);
-        queryDatabase();
+            mAdapter = new PopularMovieAdapter(this);
+
+            mPopularMoviesList.setAdapter(mAdapter);
+            queryDatabase();
+        }
 
     }
 

@@ -24,16 +24,66 @@
 
     </android.support.percent.PercentFrameLayout>
 
-    <TextView
-        android:id="@+id/tv_movie_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
         android:layout_alignBottom="@id/pl_movie_image"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif"
-        android:text="LOBO"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        android:textAlignment="center"/>
+        android:visibility="invisible"
+        android:id="@+id/rl_movie_item_info">
+
+        <ImageView
+            android:id="@+id/iv_movie_item_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:color/background_light"
+            android:layout_alignBottom="@id/pl_movie_image"
+            android:alpha="0.7"/>
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_movie_black_48dp"
+            android:alpha="0.8"
+            android:id="@+id/iv_media_type"/>
+
+        <TextView
+            android:id="@+id/tv_movie_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_movie_item_background"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/iv_media_type"
+            android:fontFamily="sans-serif"
+            android:text="Lobo"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/common_google_signin_btn_text_light_default"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:maxLines="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_movie_item_year"
+            android:layout_toRightOf="@id/tv_movie_item_title"
+            android:layout_marginTop="8dp"
+            android:text="(2017)"
+            android:textSize="16sp"
+            android:maxLines="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_movie_item_title"
+            android:layout_toRightOf="@id/iv_media_type"
+            android:layout_marginTop="8dp"
+            android:text="Drama fiction bullshit something"
+            android:textSize="10dp"
+            android:maxLines="1"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

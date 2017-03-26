@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -60,13 +61,23 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
         try {
             holder.listItemTitleTextView.setText(movie.getName());
+            holder.listItemYearTextView.setText("(" + movie.getReleaseDate().substring(0, movie.getReleaseDate().indexOf("-")) + ")");
             Glide.with(context).load(movie.getImagePath()).into(holder.listItemImageView);
             Log.v(TAG, "image was set");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        //Bitmap poster = new GetPosterFromUrl(movie).getPosterAsBitmap();
-        //holder.listItemImageView.setImageBitmap(poster);
+        final PopularMovieViewHolder newHolder = holder;
+        holder.listItemImageView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(newHolder.listItemRelativeLayout.getVisibility() == View.INVISIBLE) {
+                    newHolder.listItemRelativeLayout.setVisibility(View.VISIBLE);
+                } else {
+                    newHolder.listItemRelativeLayout.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
     }
 
     @Override
@@ -79,13 +90,18 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
         public final ImageView listItemImageView;
         public TextView listItemTitleTextView;
+        public RelativeLayout listItemRelativeLayout;
+        public TextView listItemYearTextView;
 
         public PopularMovieViewHolder(View itemView) {
             super(itemView);
 
             listItemImageView = (ImageView) itemView.findViewById(R.id.iv_movie_item);
-            listItemTitleTextView = (TextView) itemView.findViewById(R.id.tv_movie_item);
+            listItemTitleTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_title);
+            listItemRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_movie_item_info);
+            listItemYearTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_year);
         }
+
     }
 
     public void setMovieData(ArrayList<QueryResult> movieData) {
