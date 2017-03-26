@@ -60,7 +60,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         QueryResult movie = mMovieData.get(position);
 
         try {
-            holder.listItemTitleTextView.setText(movie.getName());
+            holder.listItemTitleTextView.setText(movie.getName().trim());
             holder.listItemYearTextView.setText("(" + movie.getReleaseDate().substring(0, movie.getReleaseDate().indexOf("-")) + ")");
             Glide.with(context).load(movie.getImagePath()).into(holder.listItemImageView);
             Log.v(TAG, "image was set");
@@ -68,7 +68,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
             ex.printStackTrace();
         }
         final PopularMovieViewHolder newHolder = holder;
-        holder.listItemImageView.setOnClickListener(new View.OnClickListener(){
+        /*holder.listItemImageView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 if(newHolder.listItemRelativeLayout.getVisibility() == View.INVISIBLE) {
@@ -77,7 +77,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
                     newHolder.listItemRelativeLayout.setVisibility(View.INVISIBLE);
                 }
             }
-        });
+        });*/
     }
 
     @Override

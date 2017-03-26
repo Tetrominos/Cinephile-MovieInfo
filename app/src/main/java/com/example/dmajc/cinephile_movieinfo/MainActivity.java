@@ -43,7 +43,18 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         if(null != savedInstanceState){
+            /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
+            mPopularMoviesList = (RecyclerView) findViewById(R.id.popular_movies_rv);
 
+            GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+            mPopularMoviesList.setLayoutManager(layoutManager);
+
+            mPopularMoviesList.setHasFixedSize(true);
+
+            mAdapter = new PopularMovieAdapter(this);
+
+            mPopularMoviesList.setAdapter(mAdapter);
+            queryDatabase();
         } else {
             /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
             mPopularMoviesList = (RecyclerView) findViewById(R.id.popular_movies_rv);
