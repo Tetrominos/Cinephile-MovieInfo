@@ -1,5 +1,6 @@
 package com.example.dmajc.cinephile_movieinfo;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -16,12 +17,14 @@ import android.widget.TextView;
 import com.example.dmajc.cinephile_movieinfo.adapters.PopularMovieAdapter;
 import com.example.dmajc.cinephile_movieinfo.utilities.GetPosterFromUrl;
 import com.example.dmajc.cinephile_movieinfo.utilities.NetworkUtils;
+import com.example.dmajc.cinephile_movieinfo.utilities.QueryResult;
 import com.example.dmajc.cinephile_movieinfo.utilities.TmdbPopularMoviesJsonUtils;
 
 import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
         new FetchMovieInfo().execute();
     }
 
-    public class FetchMovieInfo extends AsyncTask<Void, Void, String[]> {
+    public class FetchMovieInfo extends AsyncTask<Void, Void, ArrayList<QueryResult>> {
 
         // COMPLETED (6) Override the doInBackground method to perform your network requests
         @Override
-        protected String[] doInBackground(Void... Params) {
+        protected ArrayList<QueryResult> doInBackground(Void... Params) {
 
             URL queryUrl = NetworkUtils.buildUrl();
 
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                         .getResponseFromHttpUrl(queryUrl);
                 Log.v(TAG, jsonMovieResponse);
 
-                String[] jsonMovieResponseArray = TmdbPopularMoviesJsonUtils.getMovieInfoFromJson(getApplicationContext(), jsonMovieResponse);
+                ArrayList<QueryResult> jsonMovieResponseArray = TmdbPopularMoviesJsonUtils.getMovieInfoFromJson(getApplicationContext(), jsonMovieResponse);
 
                 return jsonMovieResponseArray;
             } catch (Exception e) {
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         // COMPLETED (7) Override the onPostExecute method to display the results of the network request
         @Override
-        protected void onPostExecute(String[] movieSearchData) {
+        protected void onPostExecute(ArrayList<QueryResult> movieSearchData) {
             if (movieSearchData != null) {
                 /*
                  * Iterate through the array and append the Strings to the TextView. The reason why we add

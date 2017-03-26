@@ -16,11 +16,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.dmajc.cinephile_movieinfo.R;
 import com.example.dmajc.cinephile_movieinfo.utilities.GetPosterFromUrl;
+import com.example.dmajc.cinephile_movieinfo.utilities.QueryResult;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by dmajc on 19.3.2017..
@@ -32,7 +34,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
     public static final String TAG = "PopularMovieAdapter";
 
-    private String[] mMovieData;
+    private ArrayList<QueryResult> mMovieData;
 
     private Context context;
 
@@ -54,17 +56,11 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
     @Override
     public void onBindViewHolder(PopularMovieViewHolder holder, int position) {
-        String movie = mMovieData[position];
+        QueryResult movie = mMovieData.get(position);
 
         try {
-            /*Drawable poster = new GetPosterFromUrl(movie).getPosterAsDrawable();
-            holder.listItemImageView.setImageDrawable(poster);*/
-            int firstSpace = movie.indexOf(" ");
-            String partialUrl = movie.substring(0, movie.indexOf(" "));
-            String url = "https://image.tmdb.org/t/p/w500" + partialUrl;
-            String MovieName = movie.substring(movie.indexOf("-")+1, movie.indexOf("-", movie.indexOf("-") + 1));
-            holder.listItemTitleTextView.setText(MovieName);
-            Glide.with(context).load(url).into(holder.listItemImageView);
+            holder.listItemTitleTextView.setText(movie.getName());
+            Glide.with(context).load(movie.getImagePath()).into(holder.listItemImageView);
             Log.v(TAG, "image was set");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -76,7 +72,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     @Override
     public int getItemCount() {
         if (null == mMovieData) return 0;
-        return mMovieData.length;
+        return mMovieData.size();
     }
 
     public class PopularMovieViewHolder extends RecyclerView.ViewHolder {
@@ -92,9 +88,9 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         }
     }
 
-    public void setMovieData(String[] movieData) {
+    public void setMovieData(ArrayList<QueryResult> movieData) {
         mMovieData = movieData;
-        Log.v(TAG, mMovieData[0]);
+        Log.v(TAG, "Movie data was set for " + mMovieData.get(0).getName());
         notifyDataSetChanged();
     }
 }
