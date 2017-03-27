@@ -2,6 +2,7 @@ package com.example.dmajc.cinephile_movieinfo.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.dmajc.cinephile_movieinfo.MainActivity;
+import com.example.dmajc.cinephile_movieinfo.MovieDetailActivity;
 import com.example.dmajc.cinephile_movieinfo.R;
 import com.example.dmajc.cinephile_movieinfo.utilities.GetPosterFromUrl;
 import com.example.dmajc.cinephile_movieinfo.utilities.QueryResult;
@@ -33,14 +36,21 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
     private int mNumberItems;
 
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex, String titleText, String posterPath, String year);
+    }
+
     public static final String TAG = "PopularMovieAdapter";
 
     private ArrayList<QueryResult> mMovieData;
 
     private Context context;
 
-    public PopularMovieAdapter(Context context) {
+    final private ListItemClickListener mOnClickListener;
+
+    public PopularMovieAdapter(Context context, ListItemClickListener listener) {
         this.context = context;
+        mOnClickListener = listener;
     }
     @Override
     public PopularMovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,6 +74,8 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         holder.listItemYearTextView.setText("(" + movie.getReleaseDate().substring(0, movie.getReleaseDate().indexOf("-")) + ")");
         Glide.with(context).load(movie.getImagePath()).into(holder.listItemImageView);
         Log.v(TAG, "image was set");
+        //to be able to toggle visibility of a particular RecyclerView item without it getting recycled, the below answer was used
+        //http://stackoverflow.com/questions/30584141/recyclerview-ambiguos-setvisibility-function-clicking-on-one-view-affects-multi
         if(movie.isClicked()){
             relativeLayout.setVisibility(View.VISIBLE);
         } else if (!movie.isClicked()) {
@@ -88,12 +100,13 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         return mMovieData.size();
     }
 
-    public class PopularMovieViewHolder extends RecyclerView.ViewHolder {
+    public class PopularMovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final ImageView listItemImageView;
         public TextView listItemTitleTextView;
         public RelativeLayout listItemRelativeLayout;
         public TextView listItemYearTextView;
+        public ImageView listItemImageButtonView;
 
         public PopularMovieViewHolder(View itemView) {
             super(itemView);
@@ -102,6 +115,14 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
             listItemTitleTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_title);
             listItemRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_movie_item_info);
             listItemYearTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_year);
+            listItemImageButtonView = (ImageView) itemView.findViewById(R.id.iv_media_type);
+            listItemImageButtonView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int itemPosition = getAdapterPosition();
+            mOnClickListener.onListItemClick(itemPosition, listItemTitleTextView.getText().toString(), mMovieData.get(itemPosition).getImagePath(), listItemYearTextView.getText().toString());
         }
     }
 
