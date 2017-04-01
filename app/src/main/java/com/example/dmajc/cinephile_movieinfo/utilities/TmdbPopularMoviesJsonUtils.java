@@ -6,12 +6,14 @@ package com.example.dmajc.cinephile_movieinfo.utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.JsonToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
 /**
  * Utility functions to handle OpenWeatherMap JSON data.
@@ -32,7 +34,7 @@ public final class TmdbPopularMoviesJsonUtils {
      *
      * @throws JSONException If JSON data cannot be properly parsed
      */
-    public static String[] getMovieInfoFromJson(Context context, String popularMoviesJsonStr)
+    public static ArrayList<QueryResult> getMovieInfoFromJson(Context context, String popularMoviesJsonStr)
             throws JSONException {
 
         /* Movie information. Each day's movie info is an element of the "results" array */
@@ -50,9 +52,11 @@ public final class TmdbPopularMoviesJsonUtils {
         final String PM_RELEASE_DATE = "release_date";
 
         final String PM_STATUS_CODE = "status_code";
+        final String PM_MEDIA_TYPE = "media_type";
 
         /* String array to hold each movies's info String */
-        String[] parsedMovieData = null;
+        QueryResultFactory resultFactory = new QueryResultFactory();
+        ArrayList<QueryResult> parsedMovieData = new ArrayList<QueryResult>();
 
         JSONObject movieJson = new JSONObject(popularMoviesJsonStr);
 
@@ -74,7 +78,6 @@ public final class TmdbPopularMoviesJsonUtils {
 
         JSONArray movieArray = movieJson.getJSONArray(PM_RESULTS);
 
-        parsedMovieData = new String[movieArray.length()];
 
         /*long localDate = System.currentTimeMillis();
         long utcDate = SunshineDateUtils.getUTCDateFromLocal(localDate);
@@ -86,9 +89,11 @@ public final class TmdbPopularMoviesJsonUtils {
             String releaseDate;
             int id;
             double voteAverage;
+            String mediaType = null;
 
             /* TODO: add genre id extraction funcionality */
-            //int[] genreIds;
+            ArrayList<Integer> genreIds = new ArrayList<Integer>();
+            JSONArray genreIdsAsJson;
 
             JSONObject movie = movieArray.getJSONObject(i);
 
@@ -97,12 +102,13 @@ public final class TmdbPopularMoviesJsonUtils {
             releaseDate = movie.getString(PM_RELEASE_DATE);
             id = movie.getInt(PM_ID);
             voteAverage = movie.getDouble(PM_VOTE_AVERAGE);
+            mediaType = "movie";
+            genreIdsAsJson = movie.getJSONArray(PM_GENRE_IDS);
+            for (int j = 0; j < genreIdsAsJson.length(); j++){
+                genreIds.add(j, genreIdsAsJson.getInt(j));
+            }
 
-            parsedMovieData[i] = posterPath + " - "
-                    + title + " - "
-                    + releaseDate + " - "
-                    + id + " - "
-                    + voteAverage + "\n";
+            parsedMovieData.add(i, resultFactory.makeQueryResult(mediaType, title, posterPath, id, genreIds, releaseDate));
         }
 
         return parsedMovieData;
