@@ -121,6 +121,20 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
                 searchManager.getSearchableInfo(getComponentName()));
         searchView.setQueryHint(getResources().getString(R.string.search_hint));
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String query) {
+                return false;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
+                Intent startSearchResultActivity = new Intent(MainActivity.this, SearchResultActivity.class);
+                startSearchResultActivity.putExtra("QUERY", query);
+                startActivity(startSearchResultActivity);
+                return true;
+            }
+        });
+
 
         return true;
     }
@@ -130,11 +144,12 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
     }
 
     @Override
-    public void onListItemClick(int clickedItemIndex, String titleText, String posterPath, String year) {
+    public void onListItemClick(int clickedItemIndex, String titleText, String posterPath, String year, int id) {
         Intent startDetailActivity = new Intent(MainActivity.this, MovieDetailActivity.class);
         startDetailActivity.putExtra("MOVIE_TITLE", titleText);
         startDetailActivity.putExtra("MOVIE_YEAR", year);
         startDetailActivity.putExtra("POSTER_PATH", posterPath);
+        startDetailActivity.putExtra("MOVIE_ID", id);
         startActivity(startDetailActivity);
     }
 

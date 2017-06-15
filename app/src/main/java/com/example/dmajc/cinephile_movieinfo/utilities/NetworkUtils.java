@@ -85,6 +85,25 @@ public final class NetworkUtils {
         return url;
     }
 
+    public static URL buildQueryUrl(String queryKey) {
+        // COMPLETED (1) Fix this method to return the URL used to query Open Weather Map's API
+        Uri builtUri = Uri.parse(TMDB_POPULAR_MOVIES_URL).buildUpon()
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .appendQueryParameter(QUERY_PARAM, queryKey)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Log.v(TAG, "Built URI " + url);
+
+        return url;
+    }
+
     /**
      * Builds the URL used to talk to the weather server using latitude and longitude of a
      * location.

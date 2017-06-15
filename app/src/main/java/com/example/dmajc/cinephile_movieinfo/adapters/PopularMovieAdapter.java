@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dmajc on 19.3.2017..
@@ -37,12 +38,14 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
     private int mNumberItems;
 
     public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex, String titleText, String posterPath, String year);
+        void onListItemClick(int clickedItemIndex, String titleText, String posterPath, String year, int movieID);
     }
 
     public static final String TAG = "PopularMovieAdapter";
 
     private ArrayList<QueryResult> mMovieData;
+
+    //TODO 15.06.2017. check if this is necessary here
 
     private Context context;
 
@@ -122,7 +125,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         @Override
         public void onClick(View v) {
             int itemPosition = getAdapterPosition();
-            mOnClickListener.onListItemClick(itemPosition, listItemTitleTextView.getText().toString(), mMovieData.get(itemPosition).getImagePath(), listItemYearTextView.getText().toString());
+            mOnClickListener.onListItemClick(itemPosition, listItemTitleTextView.getText().toString(), mMovieData.get(itemPosition).getImagePath(), listItemYearTextView.getText().toString(), mMovieData.get(itemPosition).getId());
         }
     }
 
