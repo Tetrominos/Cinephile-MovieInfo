@@ -25,10 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dmajc.cinephile_movieinfo.adapters.PopularMovieAdapter;
-import com.example.dmajc.cinephile_movieinfo.utilities.GetPosterFromUrl;
-import com.example.dmajc.cinephile_movieinfo.utilities.NetworkUtils;
-import com.example.dmajc.cinephile_movieinfo.utilities.QueryResult;
-import com.example.dmajc.cinephile_movieinfo.utilities.TmdbPopularMoviesJsonUtils;
+import com.uwetrottmann.tmdb2.Tmdb;
+import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
+import com.uwetrottmann.tmdb2.services.MoviesService;
 
 import org.json.JSONException;
 import org.w3c.dom.Text;
@@ -36,6 +35,8 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity implements PopularMovieAdapter.ListItemClickListener{
 
@@ -48,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
     private TextView mQueryResultAsJsonTV;
     private ImageView mTestImageView;
     private String jsonMovieResponse;
+
+    private Tmdb tmdb = new Tmdb("22fae8008755665b5b342cdb43e177af");
+    MoviesService moviesService = tmdb.moviesService();
+    MovieResultsPage mMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +76,23 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
             mPopularMoviesList.setHasFixedSize(true);
             mAdapter = new PopularMovieAdapter(this, this);
             mPopularMoviesList.setAdapter(mAdapter);
+//            try {
+//                jsonMovieResponse = savedInstanceState.getString(BUNDLE_KEY);
+//                ArrayList<QueryResult> jsonMovieResponseArray = TmdbPopularMoviesJsonUtils.getMovieInfoFromJson(getApplicationContext(), jsonMovieResponse);
+//                mAdapter.setMovieData(jsonMovieResponseArray);
+//                Log.v(TAG, "movie data was set after recreating view");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                queryDatabase();
+//            }
+
             try {
-                jsonMovieResponse = savedInstanceState.getString(BUNDLE_KEY);
-                ArrayList<QueryResult> jsonMovieResponseArray = TmdbPopularMoviesJsonUtils.getMovieInfoFromJson(getApplicationContext(), jsonMovieResponse);
-                mAdapter.setMovieData(jsonMovieResponseArray);
-                Log.v(TAG, "movie data was set after recreating view");
-            } catch (JSONException e) {
-                e.printStackTrace();
-                queryDatabase();
+                mMovies = (MovieResultsPage) getLastCustomNonConfigurationInstance();
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
             }
+
+            mAdapter.setMovieData(mMovies);
         } else {
             /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
             mPopularMoviesList = (RecyclerView) findViewById(R.id.popular_movies_rv);
@@ -153,47 +166,68 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
         startActivity(startDetailActivity);
     }
 
-    public class FetchMovieInfo extends AsyncTask<Void, Void, ArrayList<QueryResult>> {
+    public class FetchMovieInfo extends AsyncTask<Void, Void, MovieResultsPage> {
 
         // COMPLETED (6) Override the doInBackground method to perform your network requests
         @Override
-        protected ArrayList<QueryResult> doInBackground(Void... Params) {
+        protected MovieResultsPage doInBackground(Void... Params) {
 
-            URL queryUrl = NetworkUtils.buildUrl();
-
+//            URL queryUrl = NetworkUtils.buildUrl();
+//
+//            try {
+//                jsonMovieResponse = NetworkUtils
+//                        .getResponseFromHttpUrl(queryUrl);
+//                Log.v(TAG, jsonMovieResponse);
+//
+//                ArrayList<QueryResult> jsonMovieResponseArray = TmdbPopularMoviesJsonUtils.getMovieInfoFromJson(getApplicationContext(), jsonMovieResponse);
+//
+//                return jsonMovieResponseArray;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+            Call<com.uwetrottmann.tmdb2.entities.MovieResultsPage> call = moviesService.popular(null, null);
+            com.uwetrottmann.tmdb2.entities.MovieResultsPage movies = null;
             try {
-                jsonMovieResponse = NetworkUtils
-                        .getResponseFromHttpUrl(queryUrl);
-                Log.v(TAG, jsonMovieResponse);
-
-                ArrayList<QueryResult> jsonMovieResponseArray = TmdbPopularMoviesJsonUtils.getMovieInfoFromJson(getApplicationContext(), jsonMovieResponse);
-
-                return jsonMovieResponseArray;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+                movies = call.execute().body();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
+
+            return movies;
         }
 
         // COMPLETED (7) Override the onPostExecute method to display the results of the network request
         @Override
-        protected void onPostExecute(ArrayList<QueryResult> movieSearchData) {
-            if (movieSearchData != null) {
-                /*
-                 * Iterate through the array and append the Strings to the TextView. The reason why we add
-                 * the "\n\n\n" after the String is to give visual separation between each String in the
-                 * TextView. Later, we'll learn about a better way to display lists of data.
-                 */
-                mAdapter.setMovieData(movieSearchData);
-                Log.v(TAG, "movie data was set");
+        protected void onPostExecute(MovieResultsPage popularMovies) {
+            if (popularMovies != null) {
+//                /*
+//                 * Iterate through the array and append the Strings to the TextView. The reason why we add
+//                 * the "\n\n\n" after the String is to give visual separation between each String in the
+//                 * TextView. Later, we'll learn about a better way to display lists of data.
+//                 */
+//                mAdapter.setMovieData(movieSearchData);
+//                Log.v(TAG, "movie data was set");
+                mMovies = popularMovies;
+                for (com.uwetrottmann.tmdb2.entities.Movie movie : popularMovies.results) {
+                    Log.d(TAG, movie.title + " " + movie.poster_path);
+                }
+                mAdapter.setMovieData(popularMovies);
             }
         }
     }
 
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putString(BUNDLE_KEY, jsonMovieResponse);
+//        outState.putExtra
+//    }
+
+
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(BUNDLE_KEY, jsonMovieResponse);
+    public Object onRetainCustomNonConfigurationInstance() {
+        return mMovies;
     }
 }
 
