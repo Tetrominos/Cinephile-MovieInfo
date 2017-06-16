@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.dmajc.cinephile_movieinfo.MainActivity;
 import com.example.dmajc.cinephile_movieinfo.MovieDetailActivity;
 import com.example.dmajc.cinephile_movieinfo.R;
+import com.uwetrottmann.tmdb2.entities.Genre;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
@@ -84,6 +86,16 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         }
 
         holder.listItemTitleTextView.setText(movie.title);
+        holder.listItemRatingTextView.setText("★" + Double.toString(movie.vote_average));
+
+        //TODO Add movie genre_ids support and hardcode set of genre names and ids. This will be done by editing the wrapper library fro tmdb
+        //List<Genre> genres = movie.genres;
+        /*holder.listItemGenresTextView.setText("");
+        for (int i = 0; i < movie.genres.size() - 1; i++) {
+            holder.listItemGenresTextView.append(movie.genres.get(i).name + " | ");
+        }
+        holder.listItemGenresTextView.append(movie.genres.get(movie.genres.size() - 1).name);*/
+
         Glide.with(context).load("https://image.tmdb.org/t/p/w500" + movie.poster_path).into(holder.listItemImageView);
         Log.v(TAG, "image was set");
         //to be able to toggle visibility of a particular RecyclerView item without it getting recycled, the below answer was used
@@ -136,7 +148,9 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         public TextView listItemTitleTextView;
         public RelativeLayout listItemRelativeLayout;
         public TextView listItemYearTextView;
-        public ImageView listItemImageButtonView;
+        public TextView listItemRatingTextView;
+        public TextView listItemGenresTextView;
+//        public ImageView listItemImageButtonView;
 
         public PopularMovieViewHolder(View itemView) {
             super(itemView);
@@ -144,9 +158,12 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
             listItemImageView = (ImageView) itemView.findViewById(R.id.iv_movie_item);
             listItemTitleTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_title);
             listItemRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_movie_item_info);
+            listItemRelativeLayout.setOnClickListener(this);
             listItemYearTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_year);
-            listItemImageButtonView = (ImageView) itemView.findViewById(R.id.iv_media_type);
-            listItemImageButtonView.setOnClickListener(this);
+            listItemRatingTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_rating);
+            listItemGenresTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_genres);
+//            listItemImageButtonView = (ImageView) itemView.findViewById(R.id.iv_media_type);
+//            listItemImageButtonView.setOnClickListener(this);
         }
 
         @Override

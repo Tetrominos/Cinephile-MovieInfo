@@ -14,6 +14,8 @@ import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 import com.uwetrottmann.tmdb2.services.MoviesService;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -25,7 +27,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mTitleTV;
     private TextView mYearTV;
     private TextView mDescriptionTV;
+    private TextView mRatingTV;
     private ImageView mPosterIV;
+    private Movie mMovie;
 
     int movieID;
     private Tmdb tmdb = new Tmdb("22fae8008755665b5b342cdb43e177af");
@@ -47,6 +51,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mYearTV = (TextView) findViewById(R.id.tv_movie_detail_year);
         mPosterIV = (ImageView) findViewById(R.id.iv_movie_detail_poster);
         mDescriptionTV = (TextView) findViewById(R.id.tv_movie_detail_description);
+        mRatingTV = (TextView) findViewById(R.id.tv_movie_detail_rating_number);
 
         mTitleTV.setText(movieTitle);
         mYearTV.setText(movieYear);
@@ -73,7 +78,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Movie movie) {
             if (movie != null) {
-                mDescriptionTV.setText(movie.overview);
+                mMovie = movie;
+                mDescriptionTV.setText(mMovie.overview);
+                mRatingTV.setText(Double.toString(mMovie.vote_average));
             }
         }
     }

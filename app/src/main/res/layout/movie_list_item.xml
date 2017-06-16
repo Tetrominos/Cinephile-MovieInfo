@@ -35,11 +35,13 @@
             android:id="@+id/iv_movie_item_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@android:color/background_light"
             android:layout_alignBottom="@id/pl_movie_image"
-            android:alpha="0.7"/>
+            android:background="#0F0A0A"
+            android:alpha="0.8"/>
+            <!--app:srcCompat="@android:color/background_light"-->
 
-        <ImageView
+
+        <!--<ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="8dp"
@@ -49,41 +51,64 @@
             android:src="@drawable/ic_movie_black_48dp"
             android:alpha="0.8"
             android:id="@+id/iv_media_type"/>
+            -->
 
         <TextView
             android:id="@+id/tv_movie_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/iv_movie_item_background"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:fontFamily="sans-serif"
             android:text="Lobo"
-            android:layout_margin="4dp"
+            android:textColor="#FFEED6"
             android:textAlignment="center"
-            android:textColor="@color/common_google_signin_btn_text_light_default"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:maxLines="1"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_movie_item_year"
-            android:layout_below="@id/tv_movie_item_title"
-            android:text="(2017)"
-            android:textSize="10sp"
-            android:maxLines="1"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_movie_item_year"
             android:layout_marginTop="4dp"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_below="@id/tv_movie_item_title"
+            android:id="@+id/tv_movie_item_year"
+            android:textColor="#FFEED6"
+            android:text="(2017)"
+            android:textSize="12sp"
+            android:maxLines="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignRight="@id/iv_movie_item_background"
+            android:layout_alignEnd="@id/iv_movie_item_background"
+            android:layout_below="@id/tv_movie_item_title"
+            android:id="@+id/tv_movie_item_rating"
+            android:textColor="#FFEED6"
+            android:text="★7.5"
+            android:textSize="12sp"
+            android:maxLines="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_movie_item_background"
+            android:textColor="#fff"
+            android:id="@+id/tv_movie_item_genres"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="8dp"
             android:text="Drama fiction bullshit something"
             android:textSize="10dp"
-            android:maxLines="1"/>
+            android:maxLines="2"/>
 
     </RelativeLayout>
 
