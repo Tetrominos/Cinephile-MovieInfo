@@ -35,6 +35,7 @@ public class SearchResultActivity extends AppCompatActivity implements PopularMo
 //    MoviesService moviesService = tmdb.moviesService();
     SearchService searchService = tmdb.searchService();
     TextView searchResultTV;
+    private MovieResultsPage mMovies;
 
     private PopularMovieAdapter mAdapter;
     private RecyclerView mPopularMoviesList;
@@ -44,28 +45,57 @@ public class SearchResultActivity extends AppCompatActivity implements PopularMo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
+
         Intent intentThatStartedThisActivity = getIntent();
         String query = intentThatStartedThisActivity.getStringExtra("QUERY");
         getSupportActionBar().setTitle("Search for " + query);
 
-        mPopularMoviesList = (RecyclerView) findViewById(R.id.queried_movies_rv);
+        if (null != savedInstanceState) {
 
-        GridLayoutManager layoutManager;
-        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            layoutManager = new GridLayoutManager(this, 2);
+            mPopularMoviesList = (RecyclerView) findViewById(R.id.queried_movies_rv);
+
+            GridLayoutManager layoutManager;
+            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                layoutManager = new GridLayoutManager(this, 2);
+            } else {
+                layoutManager = new GridLayoutManager(this, 3);
+            }
+            mPopularMoviesList.setLayoutManager(layoutManager);
+
+            mPopularMoviesList.setHasFixedSize(true);
+
+            mAdapter = new PopularMovieAdapter(this, this);
+
+            mPopularMoviesList.setAdapter(mAdapter);
+
+            try {
+                mMovies = (MovieResultsPage) getLastCustomNonConfigurationInstance();
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+            }
+
+            mAdapter.setMovieData(mMovies);
+
+        } else {
+
+            mPopularMoviesList = (RecyclerView) findViewById(R.id.queried_movies_rv);
+
+            GridLayoutManager layoutManager;
+            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                layoutManager = new GridLayoutManager(this, 2);
+            } else {
+                layoutManager = new GridLayoutManager(this, 3);
+            }
+            mPopularMoviesList.setLayoutManager(layoutManager);
+
+            mPopularMoviesList.setHasFixedSize(true);
+
+            mAdapter = new PopularMovieAdapter(this, this);
+
+            mPopularMoviesList.setAdapter(mAdapter);
+
+            new FetchMovieInfo().execute(query);
         }
-        else{
-            layoutManager = new GridLayoutManager(this, 3);
-        }
-        mPopularMoviesList.setLayoutManager(layoutManager);
-
-        mPopularMoviesList.setHasFixedSize(true);
-
-        mAdapter = new PopularMovieAdapter(this, this);
-
-        mPopularMoviesList.setAdapter(mAdapter);
-
-        new FetchMovieInfo().execute(query);
     }
 
     @Override
@@ -99,8 +129,14 @@ public class SearchResultActivity extends AppCompatActivity implements PopularMo
         @Override
         protected void onPostExecute(MovieResultsPage movieResultsPage) {
             if (movieResultsPage != null) {
+                mMovies = movieResultsPage;
                 mAdapter.setMovieData(movieResultsPage);
             }
         }
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return mMovies;
     }
 }
