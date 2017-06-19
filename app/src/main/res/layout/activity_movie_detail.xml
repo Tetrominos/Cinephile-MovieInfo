@@ -4,13 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.dmajc.cinephile_movieinfo.MovieDetailActivity">
-
-    <ImageView
-        android:layout_width="160dp"
-        android:layout_height="240dp"
-        android:src="@drawable/logan"
-        android:id="@+id/iv_movie_detail_poster"/>
+    tools:context="com.example.dmajc.cinephile_movieinfo.MovieDetailActivity"
+    android:background="@color/colorBackground">
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,53 +14,80 @@
         android:text="Logan"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_toRightOf="@id/iv_movie_detail_poster"
-        android:layout_toEndOf="@id/iv_movie_detail_poster"
         android:layout_margin="8dp"
+        android:textColor="@color/colorText"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_movie_detail_year"
-        android:layout_toRightOf="@id/iv_movie_detail_poster"
-        android:layout_toEndOf="@id/iv_movie_detail_poster"
-        android:layout_below="@id/tv_movie_detail_title"
-        android:textSize="20sp"
-        android:layout_marginLeft="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:text="2017"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/tv_movie_detail_description"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_below="@id/tv_movie_detail_title"
+        android:textColor="@color/colorText"
+        android:text="logan swears, patrick stewart swears more"
+        android:ellipsize="end"
+        android:layout_marginBottom="8dp"
+        android:maxLines="8"/>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:src="@drawable/logan"
+        android:id="@+id/iv_movie_detail_poster"
+        android:layout_below="@id/tv_movie_detail_description"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/tv_movie_detail_rating_title"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Rating: "
         android:layout_toRightOf="@id/iv_movie_detail_poster"
         android:layout_toEndOf="@id/iv_movie_detail_poster"
-        android:layout_below="@id/tv_movie_detail_year"
-        android:layout_marginLeft="8dp"
-        android:text="Rating: "
+        android:layout_below="@id/tv_movie_detail_description"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_movie_detail_rating_number"
+        android:textColor="@color/colorText"
         android:layout_toRightOf="@id/tv_movie_detail_rating_title"
         android:layout_toEndOf="@id/tv_movie_detail_rating_title"
-        android:layout_below="@id/tv_movie_detail_year"
+        android:layout_below="@id/tv_movie_detail_description"
+        android:textSize="16sp"
         />
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_movie_detail_description"
+        android:id="@+id/iv_movie_detail_imdb_uri"
         android:layout_toRightOf="@id/iv_movie_detail_poster"
-        android:layout_toEndOf="@id/iv_movie_detail_poster"
         android:layout_below="@id/tv_movie_detail_rating_title"
-        android:layout_marginLeft="8dp"
-        android:text="logan swears, patrick stewart swears more"
-        android:ellipsize="end"
-        android:maxLines="8"/>
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="-8dp"
+        android:src="@mipmap/imdb"
+        />
 
 
 

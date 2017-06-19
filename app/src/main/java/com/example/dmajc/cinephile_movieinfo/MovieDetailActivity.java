@@ -2,9 +2,11 @@ package com.example.dmajc.cinephile_movieinfo;
 
 import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mDescriptionTV;
     private TextView mRatingTV;
     private ImageView mPosterIV;
+    private ImageView mImdbIV;
     private Movie mMovie;
 
     int movieID;
@@ -52,6 +55,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mPosterIV = (ImageView) findViewById(R.id.iv_movie_detail_poster);
         mDescriptionTV = (TextView) findViewById(R.id.tv_movie_detail_description);
         mRatingTV = (TextView) findViewById(R.id.tv_movie_detail_rating_number);
+        mImdbIV = (ImageView) findViewById(R.id.iv_movie_detail_imdb_uri);
 
         mTitleTV.setText(movieTitle);
         mYearTV.setText(movieYear);
@@ -80,7 +84,17 @@ public class MovieDetailActivity extends AppCompatActivity {
             if (movie != null) {
                 mMovie = movie;
                 mDescriptionTV.setText(mMovie.overview);
-                mRatingTV.setText(Double.toString(mMovie.vote_average));
+                mRatingTV.setText("★" + Double.toString(mMovie.vote_average));
+                mImdbIV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                        intent.setData(Uri.parse("http://www.imdb.com/title/" + mMovie.imdb_id));
+                        startActivity(intent);
+                    }
+                });
             }
         }
     }
