@@ -59,7 +59,8 @@
         android:layout_height="300dp"
         android:layout_toRightOf="@id/iv_movie_detail_poster"
         android:layout_toEndOf="@id/iv_movie_detail_poster"
-        android:layout_below="@id/tv_movie_detail_description">
+        android:layout_below="@id/tv_movie_detail_description"
+        android:id="@+id/rl_right_of_poster">
 
         <TextView
             android:layout_width="wrap_content"
@@ -96,5 +97,15 @@
             />
 
     </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/credits"
+        android:layout_below="@id/iv_movie_detail_poster"
+        android:scrollbars="horizontal"
+        android:layout_marginTop="8dp">
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

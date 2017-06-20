@@ -6,12 +6,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.dmajc.cinephile_movieinfo.adapters.CreditsAdapter;
 import com.uwetrottmann.tmdb2.Tmdb;
+import com.uwetrottmann.tmdb2.entities.Credits;
 import com.uwetrottmann.tmdb2.entities.Genre;
 import com.uwetrottmann.tmdb2.entities.GenreResults;
 import com.uwetrottmann.tmdb2.entities.Movie;
@@ -37,6 +41,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageView mPosterIV;
     private ImageView mImdbIV;
     private Movie mMovie;
+    private Credits mCreditsList;
+    private RecyclerView mCredits;
+
+    private CreditsAdapter ca;
 
     int movieID;
     private Tmdb tmdb = new Tmdb("22fae8008755665b5b342cdb43e177af");
@@ -53,6 +61,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieID = intentThatStartedThisActivity.getIntExtra("MOVIE_ID", 0);
 
         new FetchMovieInfo().execute();
+        new FetchMovieCredits().execute();
 
         mTitleTV = (TextView) findViewById(R.id.tv_movie_detail_title);
         mYearTV = (TextView) findViewById(R.id.tv_movie_detail_year);
@@ -61,11 +70,17 @@ public class MovieDetailActivity extends AppCompatActivity {
         mRatingTV = (TextView) findViewById(R.id.tv_movie_detail_rating_number);
         mImdbIV = (ImageView) findViewById(R.id.iv_movie_detail_imdb_uri);
         mGenresTV = (TextView) findViewById(R.id.tv_movie_detail_genres);
-
+        mCredits = (RecyclerView) findViewById(R.id.credits);
 
         mTitleTV.setText(movieTitle);
         mYearTV.setText(movieYear);
         Glide.with(this).load(moviePosterPath).into(mPosterIV);
+        ca = new CreditsAdapter(this);
+        mCredits.setAdapter(ca);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mCredits.setLayoutManager(llm);
     }
 
     public class FetchMovieInfo extends AsyncTask<Void, Void, Movie> {
@@ -74,9 +89,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         @Override
         protected Movie doInBackground(Void... params) {
             Call<Movie> call = moviesService.summary(movieID, null, null);
+            Call<Credits> creditsCall = moviesService.credits(movieID);
             Movie movie = null;
+            Credits credits = null;
             try {
                 movie = call.execute().body();
+                credits = creditsCall.execute().body();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -105,6 +123,33 @@ public class MovieDetailActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+
+            }
+        }
+    }
+
+    public class FetchMovieCredits extends AsyncTask<Void, Void, Credits> {
+
+        // COMPLETED (6) Override the doInBackground method to perform your network requests
+        @Override
+        protected Credits doInBackground(Void... params) {
+            Call<Credits> call = moviesService.credits(movieID);
+            Credits credits = null;
+            try {
+                credits = call.execute().body();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return credits;
+        }
+
+        // COMPLETED (7) Override the onPostExecute method to display the results of the network request
+        @Override
+        protected void onPostExecute(Credits credits) {
+            if (credits != null) {
+                mCreditsList = credits;
+                ca.setCredits(mCreditsList.cast);
             }
         }
     }
