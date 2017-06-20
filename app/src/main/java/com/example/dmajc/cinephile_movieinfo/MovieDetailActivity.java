@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.uwetrottmann.tmdb2.Tmdb;
+import com.uwetrottmann.tmdb2.entities.Genre;
+import com.uwetrottmann.tmdb2.entities.GenreResults;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 import com.uwetrottmann.tmdb2.services.MoviesService;
@@ -19,6 +21,7 @@ import com.uwetrottmann.tmdb2.services.MoviesService;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -30,6 +33,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mYearTV;
     private TextView mDescriptionTV;
     private TextView mRatingTV;
+    private TextView mGenresTV;
     private ImageView mPosterIV;
     private ImageView mImdbIV;
     private Movie mMovie;
@@ -56,6 +60,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         mDescriptionTV = (TextView) findViewById(R.id.tv_movie_detail_description);
         mRatingTV = (TextView) findViewById(R.id.tv_movie_detail_rating_number);
         mImdbIV = (ImageView) findViewById(R.id.iv_movie_detail_imdb_uri);
+        mGenresTV = (TextView) findViewById(R.id.tv_movie_detail_genres);
+
 
         mTitleTV.setText(movieTitle);
         mYearTV.setText(movieYear);
@@ -83,8 +89,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         protected void onPostExecute(Movie movie) {
             if (movie != null) {
                 mMovie = movie;
+                List<Genre> genres = mMovie.genres;
+                for (Genre genre : genres) {
+                    mGenresTV.append(genre.name + "\n");
+                }
                 mDescriptionTV.setText(mMovie.overview);
-                mRatingTV.setText("★" + Double.toString(mMovie.vote_average));
+                mRatingTV.setText(Double.toString(mMovie.vote_average) + "/10");
                 mImdbIV.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

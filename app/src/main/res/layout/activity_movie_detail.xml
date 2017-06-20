@@ -37,6 +37,8 @@
         android:id="@+id/tv_movie_detail_description"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_below="@id/tv_movie_detail_title"
         android:textColor="@color/colorText"
         android:text="logan swears, patrick stewart swears more"
@@ -52,43 +54,47 @@
         android:layout_below="@id/tv_movie_detail_description"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_movie_detail_rating_title"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Rating: "
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         android:layout_toRightOf="@id/iv_movie_detail_poster"
         android:layout_toEndOf="@id/iv_movie_detail_poster"
-        android:layout_below="@id/tv_movie_detail_description"
-        android:textColor="@color/colorText"
-        android:textSize="16sp"
-        />
+        android:layout_below="@id/tv_movie_detail_description">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_movie_detail_rating_number"
-        android:textColor="@color/colorText"
-        android:layout_toRightOf="@id/tv_movie_detail_rating_title"
-        android:layout_toEndOf="@id/tv_movie_detail_rating_title"
-        android:layout_below="@id/tv_movie_detail_description"
-        android:textSize="16sp"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_movie_detail_rating_number"
+            android:text="9.2"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentTop="true"
+            />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_movie_detail_imdb_uri"
-        android:layout_toRightOf="@id/iv_movie_detail_poster"
-        android:layout_below="@id/tv_movie_detail_rating_title"
-        android:layout_marginLeft="6dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="-8dp"
-        android:src="@mipmap/imdb"
-        />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/iv_movie_detail_imdb_uri"
+            android:layout_below="@id/tv_movie_detail_rating_number"
+            android:src="@drawable/imdb"
+            android:layout_marginTop="-10dp"
+            android:layout_centerVertical="true"
+            />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_movie_detail_imdb_uri"
+            android:id="@+id/tv_movie_detail_genres"
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp"
+            android:textColor="@color/colorText"
+            android:textAlignment="center"
+            />
 
+    </RelativeLayout>
 
 </RelativeLayout>
