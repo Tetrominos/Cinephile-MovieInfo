@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 
-public class MainActivity extends AppCompatActivity implements PopularMovieAdapter.ListItemClickListener{
+public class MainActivity extends AppCompatActivity implements PopularMovieAdapter.ListItemClickListener {
 
     private static final String TAG = "Main Activity";
     private static final String BUNDLE_KEY = "json_query_result";

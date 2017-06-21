@@ -32,7 +32,7 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends AppCompatActivity implements CreditsAdapter.ListItemClickListener {
     private TextView mTitleTV;
     private TextView mYearTV;
     private TextView mDescriptionTV;
@@ -75,12 +75,21 @@ public class MovieDetailActivity extends AppCompatActivity {
         mTitleTV.setText(movieTitle);
         mYearTV.setText(movieYear);
         Glide.with(this).load(moviePosterPath).into(mPosterIV);
-        ca = new CreditsAdapter(this);
+        ca = new CreditsAdapter(this, this);
         mCredits.setAdapter(ca);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         mCredits.setLayoutManager(llm);
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex, String personName, String posterPath, int personID) {
+        Intent startDetailActivity = new Intent(MovieDetailActivity.this, PersonActivity.class);
+        startDetailActivity.putExtra("PERSON_NAME", personName);
+        startDetailActivity.putExtra("POSTER_PATH", posterPath);
+        startDetailActivity.putExtra("PERSON_ID", personID);
+        startActivity(startDetailActivity);
     }
 
     public class FetchMovieInfo extends AsyncTask<Void, Void, Movie> {

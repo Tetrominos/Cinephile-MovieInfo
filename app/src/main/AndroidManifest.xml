@@ -27,6 +27,7 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
+        <activity android:name=".PersonActivity"></activity>
     </application>
 
 </manifest>

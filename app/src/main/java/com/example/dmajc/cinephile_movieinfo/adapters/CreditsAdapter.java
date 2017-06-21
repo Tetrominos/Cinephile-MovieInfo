@@ -1,6 +1,7 @@
 package com.example.dmajc.cinephile_movieinfo.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.dmajc.cinephile_movieinfo.MovieDetailActivity;
+import com.example.dmajc.cinephile_movieinfo.PersonActivity;
 import com.example.dmajc.cinephile_movieinfo.R;
 import com.uwetrottmann.tmdb2.entities.CastMember;
 
@@ -26,21 +29,34 @@ import static android.support.v7.appcompat.R.styleable.View;
 public class CreditsAdapter  extends RecyclerView.Adapter<CreditsAdapter.CreditsViewHolder>{
 
     private Context context;
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex, String personName, String posterPath, int personID);
+    }
 
-    public CreditsAdapter (Context context) {
+    final private ListItemClickListener mOnClickListener;
+
+    public CreditsAdapter (Context context, ListItemClickListener listener) {
         this.context = context;
+        mOnClickListener = listener;
     }
 
     public List<CastMember> credits;
 
-    public class CreditsViewHolder extends RecyclerView.ViewHolder {
+    public class CreditsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView mCreditImage;
         public TextView mCastName;
 
         public CreditsViewHolder(View view) {
             super (view);
             mCreditImage = (ImageView) view.findViewById(R.id.iv_credits);
+            mCreditImage.setOnClickListener(this);
             mCastName = (TextView) view.findViewById(R.id.tv_credit_list_item_name);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int itemPosition = getAdapterPosition();
+            mOnClickListener.onListItemClick(itemPosition, credits.get(itemPosition).name, credits.get(itemPosition).profile_path, credits.get(itemPosition).id);
         }
     }
 
