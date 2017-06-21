@@ -149,7 +149,6 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         public RelativeLayout listItemRelativeLayout;
         public TextView listItemYearTextView;
         public TextView listItemRatingTextView;
-        public TextView listItemGenresTextView;
 //        public ImageView listItemImageButtonView;
 
         public PopularMovieViewHolder(View itemView) {
@@ -161,7 +160,6 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
             listItemRelativeLayout.setOnClickListener(this);
             listItemYearTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_year);
             listItemRatingTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_rating);
-            listItemGenresTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_genres);
 //            listItemImageButtonView = (ImageView) itemView.findViewById(R.id.iv_media_type);
 //            listItemImageButtonView.setOnClickListener(this);
         }

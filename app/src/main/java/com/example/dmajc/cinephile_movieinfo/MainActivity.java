@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
             }
 
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
                 Intent startSearchResultActivity = new Intent(MainActivity.this, SearchResultActivity.class);
                 startSearchResultActivity.putExtra("QUERY", query);
                 startActivity(startSearchResultActivity);

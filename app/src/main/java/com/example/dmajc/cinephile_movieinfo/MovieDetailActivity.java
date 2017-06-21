@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -162,4 +164,6 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
             }
         }
     }
+
+
 }
