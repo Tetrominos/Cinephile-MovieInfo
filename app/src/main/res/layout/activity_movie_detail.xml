@@ -102,15 +102,33 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_movie_detail_cast_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        android:layout_below="@id/iv_movie_detail_poster"
+        android:text="Cast"
+        android:textStyle="bold"
+        android:layout_margin="8dp"/>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/credits"
-        android:layout_below="@id/iv_movie_detail_poster"
+        android:layout_below="@id/tv_movie_detail_cast_title"
         android:scrollbars="horizontal"
         android:layout_marginTop="8dp">
 
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/credits"
+        android:text="Something"
+        android:textColor="@color/colorText"/>
 
 </RelativeLayout>
 
