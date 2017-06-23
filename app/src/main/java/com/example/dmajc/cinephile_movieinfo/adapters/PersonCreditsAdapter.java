@@ -58,6 +58,14 @@ public class PersonCreditsAdapter extends RecyclerView.Adapter<PersonCreditsAdap
         @Override
         public void onClick(View v) {
             int itemPosition = getAdapterPosition();
+            Calendar calendar = new GregorianCalendar();
+            try {
+                calendar.setTime(credits.get(itemPosition).release_date);
+                releaseYear = calendar.get(Calendar.YEAR);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                releaseYear = 0;
+            }
             mOnClickListener.onListItemClick(itemPosition, credits.get(itemPosition).title, "https://image.tmdb.org/t/p/w500" + credits.get(itemPosition).poster_path, credits.get(itemPosition).id, releaseYear);
         }
     }
