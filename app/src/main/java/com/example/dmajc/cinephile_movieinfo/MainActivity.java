@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -86,15 +87,16 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
         drawerItem[0] = new DataModel(R.drawable.common_google_signin_btn_icon_light, mNavigationDrawerItemTitles[0]);
         drawerItem[1] = new DataModel(R.drawable.common_google_signin_btn_icon_light, mNavigationDrawerItemTitles[1]);
         drawerItem[2] = new DataModel(R.drawable.common_google_signin_btn_icon_dark, mNavigationDrawerItemTitles[2]);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.list_view_item_row, drawerItem);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
         setupDrawerToggle();
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         if(null != savedInstanceState){
             /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
@@ -301,9 +303,15 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
         mDrawerToggle.syncState();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
 
     void setupDrawerToggle(){
-        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,mDrawerLayout,R.string.app_name, R.string.app_name);
+        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
         //This is necessary to change the icon of the Drawer Toggle upon state change.
         mDrawerToggle.syncState();
     }
