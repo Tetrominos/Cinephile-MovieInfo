@@ -9,22 +9,30 @@ import android.graphics.Movie;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.PersistableBundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dmajc.cinephile_movieinfo.adapters.DrawerItemCustomAdapter;
 import com.example.dmajc.cinephile_movieinfo.adapters.PopularMovieAdapter;
+import com.example.dmajc.cinephile_movieinfo.models.DataModel;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 import com.uwetrottmann.tmdb2.services.MoviesService;
@@ -50,6 +58,15 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
     private ImageView mTestImageView;
     private String jsonMovieResponse;
 
+    private String[] mNavigationDrawerItemTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    Toolbar toolbar;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
+
+
     private Tmdb tmdb = new Tmdb("22fae8008755665b5b342cdb43e177af");
     MoviesService moviesService = tmdb.moviesService();
     MovieResultsPage mMovies;
@@ -58,6 +75,26 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTitle = mDrawerTitle = getTitle();
+        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        DataModel[] drawerItem = new DataModel[3];
+
+        drawerItem[0] = new DataModel(R.drawable.common_google_signin_btn_icon_light, mNavigationDrawerItemTitles[0]);
+        drawerItem[1] = new DataModel(R.drawable.common_google_signin_btn_icon_light, mNavigationDrawerItemTitles[1]);
+        drawerItem[2] = new DataModel(R.drawable.common_google_signin_btn_icon_dark, mNavigationDrawerItemTitles[2]);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.list_view_item_row, drawerItem);
+        mDrawerList.setAdapter(adapter);
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        setupDrawerToggle();
 
         if(null != savedInstanceState){
             /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
@@ -227,6 +264,48 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return mMovies;
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+
+    }
+
+    private void selectItem(int position) {
+        Toast.makeText(this, mNavigationDrawerItemTitles[position], Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getSupportActionBar().setTitle(mTitle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+
+    void setupDrawerToggle(){
+        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,mDrawerLayout,R.string.app_name, R.string.app_name);
+        //This is necessary to change the icon of the Drawer Toggle upon state change.
+        mDrawerToggle.syncState();
     }
 }
 

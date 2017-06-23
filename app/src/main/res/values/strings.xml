@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Cinephile</string>
     <string name="search_hint">Search movies</string>
+    <string-array name="navigation_drawer_items_array">
+        <item>Popular</item>
+        <item>Settings</item>
+        <item>About</item>
+    </string-array>
 </resources>
