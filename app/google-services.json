@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "807156032184",
+    "firebase_url": "https://cinephile-a8771.firebaseio.com",
+    "project_id": "cinephile-a8771",
+    "storage_bucket": "cinephile-a8771.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807156032184:android:6611d34aae579e1e",
+        "android_client_info": {
+          "package_name": "com.example.dmajc.cinephile_movieinfo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807156032184-lpd7oima5keurnnvq9u5vcre5hc3uvr2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dmajc.cinephile_movieinfo",
+            "certificate_hash": "8e8d197649ab382a29822c719eda8c51ebe792e3"
+          }
+        },
+        {
+          "client_id": "807156032184-gdu9job55l57m07htsv1th5q02d5pobu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL_ICvVGZuH867noJN6WxgE8nyR8lEuWE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807156032184-gdu9job55l57m07htsv1th5q02d5pobu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
