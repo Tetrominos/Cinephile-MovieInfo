@@ -1,36 +1,37 @@
 package com.example.dmajc.cinephile_movieinfo;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.dmajc.cinephile_movieinfo.adapters.CreditsAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.Credits;
 import com.uwetrottmann.tmdb2.entities.Genre;
-import com.uwetrottmann.tmdb2.entities.GenreResults;
 import com.uwetrottmann.tmdb2.entities.Movie;
-import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 import com.uwetrottmann.tmdb2.services.MoviesService;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 
@@ -42,9 +43,17 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
     private TextView mGenresTV;
     private ImageView mPosterIV;
     private ImageView mImdbIV;
+    private ImageView mFavoriteIV;
     private Movie mMovie;
     private Credits mCreditsList;
     private RecyclerView mCredits;
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDatabaseReference;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+
+    private HashMap<String, Boolean> favouritedMovies;
 
     private CreditsAdapter ca;
 
@@ -62,6 +71,12 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
         String movieYear = intentThatStartedThisActivity.getStringExtra("MOVIE_YEAR");
         movieID = intentThatStartedThisActivity.getIntExtra("MOVIE_ID", 0);
 
+        // firebase init
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+
+        mUser = mAuth.getCurrentUser();
+
         new FetchMovieInfo().execute();
         new FetchMovieCredits().execute();
 
@@ -73,6 +88,71 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
         mImdbIV = (ImageView) findViewById(R.id.iv_movie_detail_imdb_uri);
         mGenresTV = (TextView) findViewById(R.id.tv_movie_detail_genres);
         mCredits = (RecyclerView) findViewById(R.id.credits);
+        mFavoriteIV = (ImageView) findViewById(R.id.iv_movie_detail_favorite);
+
+        if(mUser != null) {
+            mDatabaseReference = mDatabase.getReference("users/" + mUser.getUid() + "/fav_movies");
+            mFavoriteIV.setVisibility(View.VISIBLE);
+            mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    favouritedMovies = (HashMap<String, Boolean>) dataSnapshot.getValue();
+
+                    if (!favouritedMovies.isEmpty()) {
+                        for (String id : favouritedMovies.keySet()) {
+                            if (Integer.parseInt(id) == movieID && favouritedMovies.get(id)) {
+                                mFavoriteIV.setImageResource(R.mipmap.favorite_fill);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Toast.makeText(MovieDetailActivity.this, "Database error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        mRatingTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                Toast.makeText(MovieDetailActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mFavoriteIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (favouritedMovies == null || favouritedMovies.isEmpty()) {
+                    favouritedMovies = new HashMap<String, Boolean>();
+                }
+
+                if (favouritedMovies.containsKey(Integer.toString(movieID))) {
+                    if (favouritedMovies.get(Integer.toString(movieID))) {
+                        Log.d("AAA", Integer.toString(movieID) + ": " + favouritedMovies.get(Integer.toString(movieID)) + "a");
+                        favouritedMovies.put(Integer.toString(movieID), false);
+                        mFavoriteIV.setImageResource(R.mipmap.favorite_empty);
+                    } else {
+                        Log.d("AAA", Integer.toString(movieID) + ": " + favouritedMovies.get(Integer.toString(movieID)) + "b");
+                        favouritedMovies.put(Integer.toString(movieID), true);
+                        mFavoriteIV.setImageResource(R.mipmap.favorite_fill);
+                    }
+                } else {
+                    Log.d("AAA", Integer.toString(movieID) + ": " + favouritedMovies.get(Integer.toString(movieID)) + "c");
+                    favouritedMovies.put(Integer.toString(movieID), true);
+                    mFavoriteIV.setImageResource(R.mipmap.favorite_fill);
+                }
+
+                Toast.makeText(MovieDetailActivity.this, "YAY YOU " + movieID + ": " + favouritedMovies.get(Integer.toString(movieID)) + " HAVE FAVORITED THIS", Toast.LENGTH_SHORT).show();
+
+                mDatabaseReference.setValue(favouritedMovies);
+            }
+        });
 
         mTitleTV.setText(movieTitle);
         mYearTV.setText(movieYear);
