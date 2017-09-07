@@ -122,6 +122,7 @@ public class SearchResultActivity extends AppCompatActivity implements PopularMo
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+            Log.d(TAG, movieResultsPage.toString());
             return movieResultsPage;
         }
 

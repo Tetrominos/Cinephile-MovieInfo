@@ -18,8 +18,9 @@
     <string name="auth_failed">Authentication failed</string>
     <string-array name="navigation_drawer_items_array">
         <item name="drawer_item_popular">Popular</item>
-        <item name="drawer_item_settings">Settings</item>
+        <item name="drawer_item_favourites">Favorites</item>
         <item name="drawer_item_about">About</item>
         <item name="drawer_item_logout">Logout</item>
     </string-array>
+    <string name="title_activity_favorite_movies">Favorite Movies</string>
 </resources>
