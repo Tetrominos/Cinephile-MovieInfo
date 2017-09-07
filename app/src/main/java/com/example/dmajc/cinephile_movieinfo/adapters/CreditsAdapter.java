@@ -81,7 +81,7 @@ public class CreditsAdapter  extends RecyclerView.Adapter<CreditsAdapter.Credits
     @Override
     public void onBindViewHolder(CreditsAdapter.CreditsViewHolder holder, int position) {
         CastMember castMember = credits.get(position);
-        Glide.with(context).load("https://image.tmdb.org/t/p/w500" + castMember.profile_path).placeholder(R.drawable.boss).centerCrop().into(holder.mCreditImage);
+        Glide.with(context).load("https://image.tmdb.org/t/p/w300" + castMember.profile_path).placeholder(R.drawable.boss).centerCrop().into(holder.mCreditImage);
         holder.mCastName.setText(castMember.name);
     }
 

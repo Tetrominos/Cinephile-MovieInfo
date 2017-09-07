@@ -100,11 +100,9 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
                     // whenever data at this location is updated.
                     favouritedMovies = (HashMap<String, Boolean>) dataSnapshot.getValue();
 
-                    if (!favouritedMovies.isEmpty()) {
-                        for (String id : favouritedMovies.keySet()) {
-                            if (Integer.parseInt(id) == movieID && favouritedMovies.get(id)) {
-                                mFavoriteIV.setImageResource(R.mipmap.favorite_fill);
-                            }
+                    if (favouritedMovies != null && !favouritedMovies.isEmpty()) {
+                        if (favouritedMovies.containsKey(Integer.toString(movieID)) && favouritedMovies.get(Integer.toString(movieID))) {
+                            mFavoriteIV.setImageResource(R.mipmap.favorite_fill);
                         }
                     }
                 }

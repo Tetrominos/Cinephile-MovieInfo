@@ -96,7 +96,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         }
         holder.listItemGenresTextView.append(movie.genres.get(movie.genres.size() - 1).name);*/
 
-        Glide.with(context).load("https://image.tmdb.org/t/p/w500" + movie.poster_path).into(holder.listItemImageView);
+        Glide.with(context).load("https://image.tmdb.org/t/p/w300" + movie.poster_path).into(holder.listItemImageView);
         Log.v(TAG, "image was set");
         //to be able to toggle visibility of a particular RecyclerView item without it getting recycled, the below answer was used
         //http://stackoverflow.com/questions/30584141/recyclerview-ambiguos-setvisibility-function-clicking-on-one-view-affects-multi
@@ -167,7 +167,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         @Override
         public void onClick(View v) {
             int itemPosition = getAdapterPosition();
-            mOnClickListener.onListItemClick(itemPosition, listItemTitleTextView.getText().toString(), "https://image.tmdb.org/t/p/w500" + mMovieData.get(itemPosition).poster_path, listItemYearTextView.getText().toString(), mMovieData.get(itemPosition).id);
+            mOnClickListener.onListItemClick(itemPosition, listItemTitleTextView.getText().toString(), "https://image.tmdb.org/t/p/w300" + mMovieData.get(itemPosition).poster_path, listItemYearTextView.getText().toString(), mMovieData.get(itemPosition).id);
         }
     }
 

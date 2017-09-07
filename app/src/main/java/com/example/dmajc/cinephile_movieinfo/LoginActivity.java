@@ -50,8 +50,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private static final String TAG = "LoginActivity";
 
-    // TODO: dodaj praznu aktivnost (nevidljivu) koja gleda je li user ulogiran te ovisno o tome prikazuje login ili main activity
-
     /**
      * Id to identity READ_CONTACTS permission request.
      */

@@ -66,7 +66,7 @@ public class PersonCreditsAdapter extends RecyclerView.Adapter<PersonCreditsAdap
                 ex.printStackTrace();
                 releaseYear = 0;
             }
-            mOnClickListener.onListItemClick(itemPosition, credits.get(itemPosition).title, "https://image.tmdb.org/t/p/w500" + credits.get(itemPosition).poster_path, credits.get(itemPosition).id, releaseYear);
+            mOnClickListener.onListItemClick(itemPosition, credits.get(itemPosition).title, "https://image.tmdb.org/t/p/w300" + credits.get(itemPosition).poster_path, credits.get(itemPosition).id, releaseYear);
         }
     }
 
@@ -91,7 +91,7 @@ public class PersonCreditsAdapter extends RecyclerView.Adapter<PersonCreditsAdap
     @Override
     public void onBindViewHolder(PersonCreditsAdapter.PersonCreditsViewHolder holder, int position) {
         PersonCastCredit personCastCredit = credits.get(position);
-        Glide.with(context).load("https://image.tmdb.org/t/p/w500" + personCastCredit.poster_path).centerCrop().into(holder.mPoster);
+        Glide.with(context).load("https://image.tmdb.org/t/p/w300" + personCastCredit.poster_path).centerCrop().into(holder.mPoster);
         holder.mTitle.setText(personCastCredit.title);
         Calendar calendar = new GregorianCalendar();
         try {
