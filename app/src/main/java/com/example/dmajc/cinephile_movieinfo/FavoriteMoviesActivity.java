@@ -334,6 +334,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
                 break;
             case 2:
                 mDrawerLayout.closeDrawers();
+                startActivity(new Intent(FavoriteMoviesActivity.this, AboutActivity.class));
                 break;
             case 3:
                 mAuth.signOut();

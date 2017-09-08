@@ -295,6 +295,7 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
                 break;
             case 2:
                 mDrawerLayout.closeDrawers();
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
                 break;
             case 3:
                 mAuth.signOut();
