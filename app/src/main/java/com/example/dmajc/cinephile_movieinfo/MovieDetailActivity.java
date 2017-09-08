@@ -154,7 +154,7 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
 
         mTitleTV.setText(movieTitle);
         mYearTV.setText(movieYear);
-        Glide.with(this).load(moviePosterPath).into(mPosterIV);
+        Glide.with(this).load(moviePosterPath).placeholder(R.drawable.movie_night).into(mPosterIV);
         ca = new CreditsAdapter(this, this);
         mCredits.setAdapter(ca);
 

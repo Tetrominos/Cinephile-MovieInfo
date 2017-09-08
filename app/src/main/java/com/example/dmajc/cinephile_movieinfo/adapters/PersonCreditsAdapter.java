@@ -16,6 +16,8 @@ import com.uwetrottmann.tmdb2.entities.CastMember;
 import com.uwetrottmann.tmdb2.entities.PersonCastCredit;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -72,6 +74,19 @@ public class PersonCreditsAdapter extends RecyclerView.Adapter<PersonCreditsAdap
 
     public void setCredits (List<PersonCastCredit> castCredits) {
         this.credits = castCredits;
+
+        Collections.sort(this.credits, new Comparator<PersonCastCredit>() {
+            @Override
+            public int compare(PersonCastCredit o1, PersonCastCredit o2) {
+                if (o1.release_date.before(o2.release_date)) {
+                    return 1;
+                } else if (o1.release_date.after(o2.release_date)) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
         notifyDataSetChanged();
     }
 
@@ -91,7 +106,7 @@ public class PersonCreditsAdapter extends RecyclerView.Adapter<PersonCreditsAdap
     @Override
     public void onBindViewHolder(PersonCreditsAdapter.PersonCreditsViewHolder holder, int position) {
         PersonCastCredit personCastCredit = credits.get(position);
-        Glide.with(context).load("https://image.tmdb.org/t/p/w300" + personCastCredit.poster_path).centerCrop().into(holder.mPoster);
+        Glide.with(context).load("https://image.tmdb.org/t/p/w300" + personCastCredit.poster_path).placeholder(R.drawable.movie_night_cropped).centerCrop().into(holder.mPoster);
         holder.mTitle.setText(personCastCredit.title);
         Calendar calendar = new GregorianCalendar();
         try {

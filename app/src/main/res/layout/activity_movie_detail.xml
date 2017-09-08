@@ -94,7 +94,7 @@
             android:src="@mipmap/favorite_empty"
             android:layout_marginTop="-10dp"
             android:layout_centerVertical="true"
-            android:visibility="invisible"
+            android:visibility="gone"
             />
 
         <TextView
