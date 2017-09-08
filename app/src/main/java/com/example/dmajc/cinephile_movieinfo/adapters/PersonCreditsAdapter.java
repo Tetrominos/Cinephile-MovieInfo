@@ -78,6 +78,14 @@ public class PersonCreditsAdapter extends RecyclerView.Adapter<PersonCreditsAdap
         Collections.sort(this.credits, new Comparator<PersonCastCredit>() {
             @Override
             public int compare(PersonCastCredit o1, PersonCastCredit o2) {
+                if (o1.release_date == null && o2.release_date == null) {
+                    return 0;
+                } else if (o1.release_date == null) {
+                    return 1;
+                } else if (o2.release_date == null) {
+                    return -1;
+                }
+
                 if (o1.release_date.before(o2.release_date)) {
                     return 1;
                 } else if (o1.release_date.after(o2.release_date)) {
