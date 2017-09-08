@@ -4,18 +4,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.dmajc.cinephile_movieinfo.adapters.CreditsAdapter;
+import com.example.dmajc.cinephile_movieinfo.adapters.DrawerItemCustomAdapter;
 import com.example.dmajc.cinephile_movieinfo.adapters.PersonCreditsAdapter;
+import com.example.dmajc.cinephile_movieinfo.models.DataModel;
+import com.google.firebase.auth.FirebaseAuth;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.Person;
 import com.uwetrottmann.tmdb2.entities.PersonCastCredit;
@@ -45,10 +53,43 @@ public class PersonActivity extends AppCompatActivity implements PersonCreditsAd
     private Tmdb tmdb = new Tmdb("22fae8008755665b5b342cdb43e177af");
     PeopleService peopleService = tmdb.personService();
 
+    private String[] mNavigationDrawerItemTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
+
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mTitle = mDrawerTitle = getTitle();
+        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.person_detail_drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.person_detail_left_drawer);
+
+        DataModel[] drawerItem = new DataModel[4];
+
+        drawerItem[0] = new DataModel(R.drawable.movie_icon, mNavigationDrawerItemTitles[0]);
+        drawerItem[1] = new DataModel(R.drawable.favorites, mNavigationDrawerItemTitles[1]);
+        drawerItem[2] = new DataModel(R.drawable.about, mNavigationDrawerItemTitles[2]);
+        drawerItem[3] = new DataModel(R.drawable.sign_out, mNavigationDrawerItemTitles[3]);
+
+        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.list_view_item_row, drawerItem);
+        mDrawerList.setAdapter(adapter);
+        mDrawerList.setOnItemClickListener(new PersonActivity.DrawerItemClickListener());
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.person_detail_drawer_layout);
+        setupDrawerToggle();
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         Intent intentThatStartedThisActivity = getIntent();
         String personName = intentThatStartedThisActivity.getStringExtra("PERSON_NAME");
@@ -178,4 +219,57 @@ public class PersonActivity extends AppCompatActivity implements PersonCreditsAd
         dialog.show();
     }
 
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+
+    }
+
+    private void selectItem(int position) {
+        switch (position) {
+            case 0:
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(PersonActivity.this, MainActivity.class));
+                break;
+            case 1:
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(PersonActivity.this, FavoriteMoviesActivity.class));
+                break;
+            case 2:
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(PersonActivity.this, AboutActivity.class));
+                break;
+            case 3:
+                mAuth.signOut();
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(PersonActivity.this, LoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getSupportActionBar().setTitle(mTitle);
+    }
+
+    void setupDrawerToggle(){
+        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
+        //This is necessary to change the icon of the Drawer Toggle upon state change.
+        mDrawerToggle.syncState();
+    }
 }

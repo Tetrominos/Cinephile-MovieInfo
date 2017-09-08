@@ -68,7 +68,6 @@ public class AboutActivity extends AppCompatActivity  {
     }
 
     private void selectItem(int position) {
-        Toast.makeText(this, mNavigationDrawerItemTitles[position], Toast.LENGTH_LONG).show();
         switch (position) {
             case 0:
                 mDrawerLayout.closeDrawers();

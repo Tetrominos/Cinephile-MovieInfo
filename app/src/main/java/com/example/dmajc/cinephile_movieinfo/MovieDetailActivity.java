@@ -4,19 +4,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.dmajc.cinephile_movieinfo.adapters.CreditsAdapter;
+import com.example.dmajc.cinephile_movieinfo.adapters.DrawerItemCustomAdapter;
+import com.example.dmajc.cinephile_movieinfo.models.DataModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -63,6 +69,13 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
     private Tmdb tmdb = new Tmdb("22fae8008755665b5b342cdb43e177af");
     MoviesService moviesService = tmdb.moviesService();
 
+    private String[] mNavigationDrawerItemTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +104,28 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
         mGenresTV = (TextView) findViewById(R.id.tv_movie_detail_genres);
         mCredits = (RecyclerView) findViewById(R.id.credits);
         mFavoriteIV = (ImageView) findViewById(R.id.iv_movie_detail_favorite);
+
+        mTitle = mDrawerTitle = getTitle();
+        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.movie_detail_drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.movie_detail_left_drawer);
+
+        DataModel[] drawerItem = new DataModel[4];
+
+        drawerItem[0] = new DataModel(R.drawable.movie_icon, mNavigationDrawerItemTitles[0]);
+        drawerItem[1] = new DataModel(R.drawable.favorites, mNavigationDrawerItemTitles[1]);
+        drawerItem[2] = new DataModel(R.drawable.about, mNavigationDrawerItemTitles[2]);
+        drawerItem[3] = new DataModel(R.drawable.sign_out, mNavigationDrawerItemTitles[3]);
+
+        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.list_view_item_row, drawerItem);
+        mDrawerList.setAdapter(adapter);
+        mDrawerList.setOnItemClickListener(new MovieDetailActivity.DrawerItemClickListener());
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.movie_detail_drawer_layout);
+        setupDrawerToggle();
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         if(mUser != null) {
             mDatabaseReference = mDatabase.getReference("users/" + mUser.getUid() + "/fav_movies");
@@ -121,7 +156,6 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
-                Toast.makeText(MovieDetailActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -147,8 +181,6 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
                     favouritedMovies.put(Integer.toString(movieID), true);
                     mFavoriteIV.setImageResource(R.mipmap.favorite_fill);
                 }
-
-                Toast.makeText(MovieDetailActivity.this, "YAY YOU " + movieID + ": " + favouritedMovies.get(Integer.toString(movieID)) + " HAVE FAVORITED THIS", Toast.LENGTH_SHORT).show();
 
                 mDatabaseReference.setValue(favouritedMovies);
             }
@@ -268,5 +300,59 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
         AlertDialog dialog = builder.create();
         // display dialog
         dialog.show();
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+
+    }
+
+    private void selectItem(int position) {
+        switch (position) {
+            case 0:
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(MovieDetailActivity.this, MainActivity.class));
+                break;
+            case 1:
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(MovieDetailActivity.this, FavoriteMoviesActivity.class));
+                break;
+            case 2:
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(MovieDetailActivity.this, AboutActivity.class));
+                break;
+            case 3:
+                mAuth.signOut();
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(MovieDetailActivity.this, LoginActivity.class));
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getSupportActionBar().setTitle(mTitle);
+    }
+
+    void setupDrawerToggle(){
+        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
+        //This is necessary to change the icon of the Drawer Toggle upon state change.
+        mDrawerToggle.syncState();
     }
 }

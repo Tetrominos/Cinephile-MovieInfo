@@ -30,14 +30,14 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".MovieDetailActivity" />
+        <activity android:name=".MovieDetailActivity" android:label="@string/title_activity_movie_details"/>
         <activity android:name=".SearchResultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".PersonActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".PersonActivity" android:label="@string/title_activity_person_details" />
+        <activity android:name=".LoginActivity" android:label="@string/title_activity_login"/>
         <activity
             android:name=".MainEmptyActivity"
             android:theme="@android:style/Theme.NoDisplay">

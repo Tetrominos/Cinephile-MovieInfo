@@ -324,7 +324,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
     }
 
     private void selectItem(int position) {
-        Toast.makeText(this, mNavigationDrawerItemTitles[position], Toast.LENGTH_LONG).show();
         switch (position) {
             case 0:
                 mDrawerLayout.closeDrawers();

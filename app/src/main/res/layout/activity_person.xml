@@ -1,137 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/colorBackground">
+    android:id="@+id/person_detail_drawer_layout">
 
-    <RelativeLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
+    <android.support.v4.widget.NestedScrollView
         android:layout_height="match_parent"
-        tools:context="com.example.dmajc.cinephile_movieinfo.PersonActivity">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/person_name"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:text="name"
-            android:textColor="@color/colorText"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="300dp"
-            android:id="@+id/poster_path"
-            android:text="poster path"
-            android:layout_below="@id/person_name" />
+        android:layout_width="match_parent"
+        android:background="@color/colorBackground">
 
         <RelativeLayout
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_toRightOf="@id/poster_path"
-            android:layout_toEndOf="@id/poster_path"
-            android:layout_below="@id/person_name">
+            android:layout_height="match_parent"
+            tools:context="com.example.dmajc.cinephile_movieinfo.PersonActivity">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_person_credit_birthday"
+                android:id="@+id/person_name"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="name"
                 android:textColor="@color/colorText"
-                android:textSize="14sp"
                 android:textStyle="bold"
-                android:text="Birthday: "
+                android:textSize="20sp"/>
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:id="@+id/poster_path"
+                android:text="poster path"
+                android:layout_below="@id/person_name" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_toRightOf="@id/poster_path"
+                android:layout_toEndOf="@id/poster_path"
+                android:layout_below="@id/person_name">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_person_credit_birthday"
+                    android:textColor="@color/colorText"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:text="Birthday: "
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_person_credit_birthday_value"
+                    android:layout_toRightOf="@id/tv_person_credit_birthday"
+                    android:layout_toEndOf="@id/tv_person_credit_birthday"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/colorText"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_person_credit_birthday"
+                    android:id="@+id/tv_person_credit_deathday"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorText"
+                    android:text="Deathday: "
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_person_credit_deathday_value"
+                    android:layout_toRightOf="@id/tv_person_credit_deathday"
+                    android:layout_toEndOf="@id/tv_person_credit_deathday"
+                    android:layout_below="@id/tv_person_credit_birthday"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/colorText"
+                    android:visibility="gone"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_person_credit_deathday"
+                    android:id="@+id/tv_person_credit_bio"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorText"
+                    android:text="Bio: "/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_person_credit_bio"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/tv_person_credit_bio_value"
+                    android:textColor="@color/colorText"
+                    android:maxLines="13"
+                    android:ellipsize="end"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Credits"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_person_credit_birthday_value"
-                android:layout_toRightOf="@id/tv_person_credit_birthday"
-                android:layout_toEndOf="@id/tv_person_credit_birthday"
-                android:layout_marginTop="8dp"
+                android:id="@+id/tv_person_credits_title"
                 android:textColor="@color/colorText"
-                android:textSize="14sp"/>
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"
+                android:layout_below="@id/poster_path"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_person_credit_birthday"
-                android:id="@+id/tv_person_credit_deathday"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorText"
-                android:text="Deathday: "
-                android:visibility="gone"/>
+                android:layout_below="@id/tv_person_credits_title"
+                android:id="@+id/person_credits_rv">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_person_credit_deathday_value"
-                android:layout_toRightOf="@id/tv_person_credit_deathday"
-                android:layout_toEndOf="@id/tv_person_credit_deathday"
-                android:layout_below="@id/tv_person_credit_birthday"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/colorText"
-                android:visibility="gone"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_person_credit_deathday"
-                android:id="@+id/tv_person_credit_bio"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorText"
-                android:text="Bio: "/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_person_credit_bio"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:id="@+id/tv_person_credit_bio_value"
-                android:textColor="@color/colorText"
-                android:maxLines="13"
-                android:ellipsize="end"
-                />
+            </android.support.v7.widget.RecyclerView>
 
         </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Credits"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:id="@+id/tv_person_credits_title"
-            android:textColor="@color/colorText"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"
-            android:layout_below="@id/poster_path"/>
+    <ListView
+    android:id="@+id/person_detail_left_drawer"
+    android:layout_width="240dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/colorBackground"
+    android:choiceMode="singleChoice"
+    android:divider="@color/colorText"
+    android:dividerHeight="1dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_person_credits_title"
-            android:id="@+id/person_credits_rv">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </RelativeLayout>
-</android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.DrawerLayout>
