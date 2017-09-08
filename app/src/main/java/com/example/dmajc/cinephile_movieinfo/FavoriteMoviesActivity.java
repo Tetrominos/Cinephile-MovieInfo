@@ -1,9 +1,13 @@
 package com.example.dmajc.cinephile_movieinfo;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -56,6 +60,9 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
+    private View mProgressView;
+
+    private TextView mNotLoggedIn;
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
@@ -81,6 +88,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
         mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.fav_movie_drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.fav_movie_left_drawer);
+        mProgressView = findViewById(R.id.login_progress_fav_movies);
 
         DataModel[] drawerItem = new DataModel[4];
 
@@ -103,6 +111,8 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
 
         mUser = mAuth.getCurrentUser();
 
+        showProgress(true);
+
         if(mUser != null) {
             mDatabaseReference = mDatabase.getReference("users/" + mUser.getUid() + "/fav_movies");
             mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -120,53 +130,55 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
                     Toast.makeText(FavoriteMoviesActivity.this, "Database error", Toast.LENGTH_SHORT).show();
                 }
             });
-        }
 
-
-        if(null != savedInstanceState){
+            if(null != savedInstanceState){
             /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
-            mFavoriteMoviesList = (RecyclerView) findViewById(R.id.fav_movies_rv);
+                mFavoriteMoviesList = (RecyclerView) findViewById(R.id.fav_movies_rv);
 
-            //different grid size according to orientation
-            //http://stackoverflow.com/questions/29579811/changing-number-of-columns-with-gridlayoutmanager-and-recyclerview
-            GridLayoutManager layoutManager;
-            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                layoutManager = new GridLayoutManager(this, 2);
-            }
-            else{
-                layoutManager = new GridLayoutManager(this, 3);
-            }
-            mFavoriteMoviesList.setLayoutManager(layoutManager);
-            mFavoriteMoviesList.setHasFixedSize(true);
-            mAdapter = new PopularMovieAdapter(this, this);
-            mFavoriteMoviesList.setAdapter(mAdapter);
+                //different grid size according to orientation
+                //http://stackoverflow.com/questions/29579811/changing-number-of-columns-with-gridlayoutmanager-and-recyclerview
+                GridLayoutManager layoutManager;
+                if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                    layoutManager = new GridLayoutManager(this, 2);
+                }
+                else{
+                    layoutManager = new GridLayoutManager(this, 3);
+                }
+                mFavoriteMoviesList.setLayoutManager(layoutManager);
+                mFavoriteMoviesList.setHasFixedSize(true);
+                mAdapter = new PopularMovieAdapter(this, this);
+                mFavoriteMoviesList.setAdapter(mAdapter);
 
-            try {
-                mMovies = (MovieResultsPage) getLastCustomNonConfigurationInstance();
-            } catch (NullPointerException ex) {
-                ex.printStackTrace();
-            }
+                try {
+                    mMovies = (MovieResultsPage) getLastCustomNonConfigurationInstance();
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+                }
 
-            mAdapter.setMovieData(mMovies);
+                mAdapter.setMovieData(mMovies);
+            } else {
+            /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
+                mFavoriteMoviesList = (RecyclerView) findViewById(R.id.fav_movies_rv);
+
+                GridLayoutManager layoutManager;
+                if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+                    layoutManager = new GridLayoutManager(this, 2);
+                }
+                else{
+                    layoutManager = new GridLayoutManager(this, 3);
+                }
+                mFavoriteMoviesList.setLayoutManager(layoutManager);
+
+                mFavoriteMoviesList.setHasFixedSize(true);
+
+                mAdapter = new PopularMovieAdapter(this, this);
+
+                mFavoriteMoviesList.setAdapter(mAdapter);
+            }
         } else {
-            /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
-            mFavoriteMoviesList = (RecyclerView) findViewById(R.id.fav_movies_rv);
-
-            GridLayoutManager layoutManager;
-            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                layoutManager = new GridLayoutManager(this, 2);
-            }
-            else{
-                layoutManager = new GridLayoutManager(this, 3);
-            }
-            mFavoriteMoviesList.setLayoutManager(layoutManager);
-
-            mFavoriteMoviesList.setHasFixedSize(true);
-
-            mAdapter = new PopularMovieAdapter(this, this);
-
-            mFavoriteMoviesList.setAdapter(mAdapter);
-
+            mNotLoggedIn = (TextView) findViewById(R.id.tv_not_logged_in);
+            mNotLoggedIn.setText(R.string.not_logged_in);
+            showProgress(false);
         }
 
     }
@@ -183,6 +195,32 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
 //
 //        return true;
 //    }
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
 
 
     @Override

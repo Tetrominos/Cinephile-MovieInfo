@@ -20,6 +20,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:ellipsize="end"
+        android:maxLines="1"
         android:layout_toRightOf="@id/person_credit_list_poster"
         android:layout_toEndOf="@id/person_credit_list_poster"
         android:layout_toLeftOf="@+id/tv_person_credit_list_year"
