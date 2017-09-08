@@ -92,10 +92,10 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
 
         DataModel[] drawerItem = new DataModel[4];
 
-        drawerItem[0] = new DataModel(R.drawable.common_google_signin_btn_icon_light, mNavigationDrawerItemTitles[0]);
-        drawerItem[1] = new DataModel(R.drawable.common_google_signin_btn_icon_light, mNavigationDrawerItemTitles[1]);
-        drawerItem[2] = new DataModel(R.drawable.common_google_signin_btn_icon_dark, mNavigationDrawerItemTitles[2]);
-        drawerItem[3] = new DataModel(R.drawable.common_google_signin_btn_icon_dark, mNavigationDrawerItemTitles[3]);
+        drawerItem[0] = new DataModel(R.drawable.movie_icon, mNavigationDrawerItemTitles[0]);
+        drawerItem[1] = new DataModel(R.drawable.favorites, mNavigationDrawerItemTitles[1]);
+        drawerItem[2] = new DataModel(R.drawable.about, mNavigationDrawerItemTitles[2]);
+        drawerItem[3] = new DataModel(R.drawable.sign_out, mNavigationDrawerItemTitles[3]);
 
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.list_view_item_row, drawerItem);
         mDrawerList.setAdapter(adapter);

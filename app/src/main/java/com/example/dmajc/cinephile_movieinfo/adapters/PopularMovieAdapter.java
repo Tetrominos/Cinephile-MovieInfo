@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.example.dmajc.cinephile_movieinfo.MainActivity;
 import com.example.dmajc.cinephile_movieinfo.MovieDetailActivity;
 import com.example.dmajc.cinephile_movieinfo.R;
 import com.uwetrottmann.tmdb2.entities.Genre;
+import com.uwetrottmann.tmdb2.entities.Image;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
@@ -149,6 +151,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         public RelativeLayout listItemRelativeLayout;
         public TextView listItemYearTextView;
         public TextView listItemRatingTextView;
+        public ImageButton listItemImageButton;
 //        public ImageView listItemImageButtonView;
 
         public PopularMovieViewHolder(View itemView) {
@@ -157,7 +160,8 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
             listItemImageView = (ImageView) itemView.findViewById(R.id.iv_movie_item);
             listItemTitleTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_title);
             listItemRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_movie_item_info);
-            listItemRelativeLayout.setOnClickListener(this);
+            listItemImageButton = (ImageButton) itemView.findViewById(R.id.ib_go);
+            listItemImageButton.setOnClickListener(this);
             listItemYearTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_year);
             listItemRatingTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_rating);
 //            listItemImageButtonView = (ImageView) itemView.findViewById(R.id.iv_media_type);
