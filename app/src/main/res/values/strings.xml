@@ -27,4 +27,6 @@
     <string name="title_activity_about">About</string>
     <string name="not_logged_in">You need to login to see your favorites...</string>
     <string name="action_skip_sign_in">Skip sign in</string>
+    <string name="description">Description</string>
+    <string name="biography">Biography</string>
 </resources>

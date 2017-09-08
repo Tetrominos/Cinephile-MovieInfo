@@ -1,8 +1,10 @@
 package com.example.dmajc.cinephile_movieinfo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -201,6 +203,12 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
                     mGenresTV.append(genre.name + "\n");
                 }
                 mDescriptionTV.setText(mMovie.overview);
+                mDescriptionTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showFullDescription(mMovie.overview);
+                    }
+                });
                 mRatingTV.setText(Double.toString(mMovie.vote_average) + "/10");
                 mImdbIV.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -243,5 +251,22 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
         }
     }
 
+    private void showFullDescription(String fullDescription) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MovieDetailActivity.this);
+        builder.setTitle(getString(R.string.description));
+        builder.setMessage(fullDescription);
 
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // positive button logic
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        // display dialog
+        dialog.show();
+    }
 }

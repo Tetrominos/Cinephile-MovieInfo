@@ -1,8 +1,10 @@
 package com.example.dmajc.cinephile_movieinfo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -147,7 +149,33 @@ public class PersonActivity extends AppCompatActivity implements PersonCreditsAd
                     mPersonDeathValue.setText(sdf.format(mPerson.deathday));
                 }
                 mPersonBio.setText(mPerson.biography);
+                mPersonBio.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showFullDescription(mPerson.biography);
+                    }
+                });
             }
         }
     }
+
+    private void showFullDescription(String fullDescription) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PersonActivity.this);
+        builder.setTitle(getString(R.string.biography));
+        builder.setMessage(fullDescription);
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // positive button logic
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        // display dialog
+        dialog.show();
+    }
+
 }
