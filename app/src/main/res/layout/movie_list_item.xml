@@ -64,10 +64,11 @@
             android:layout_marginRight="8dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/ib_go"
+            android:layout_toStartOf="@+id/ib_go"
             android:fontFamily="sans-serif"
             android:text="Lobo"
             android:textColor="#FFEED6"
-            android:textAlignment="center"
             android:textSize="16sp"
             android:layout_marginTop="4dp"
             android:textStyle="bold"
@@ -104,12 +105,12 @@
             android:maxLines="1"/>
 
         <ImageButton
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:id="@+id/ib_go"
+            android:layout_marginRight="-10dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="16dp"
             android:src="@drawable/go_icon"
             android:background="@android:color/transparent"/>
 
