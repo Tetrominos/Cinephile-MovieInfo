@@ -296,6 +296,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
                     Log.d(TAG, movie.title + " " + movie.poster_path);
                 }
                 mAdapter.setMovieData(popularMovies);
+                showProgress(false);
             }
         }
     }

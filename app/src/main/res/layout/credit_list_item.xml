@@ -5,7 +5,8 @@
     android:layout_marginLeft="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginRight="8dp"
-    android:layout_marginEnd="8dp">
+    android:layout_marginEnd="8dp"
+    android:background="@color/colorBackground">
 
     <ImageView
         android:layout_width="100dp"
@@ -20,7 +21,19 @@
         android:textColor="@color/colorText"
         android:textAlignment="center"
         android:maxLines="3"
-        android:minLines="2"
+        android:minLines="1"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_credit_list_item_character_name"
+        android:textColor="@color/colorText"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:maxLines="3"
+        android:minLines="1"
         android:ellipsize="end"/>
 
 </LinearLayout>

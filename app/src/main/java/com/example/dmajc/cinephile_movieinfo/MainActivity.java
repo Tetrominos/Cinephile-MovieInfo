@@ -121,20 +121,15 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
             mPopularMoviesList.setHasFixedSize(true);
             mAdapter = new PopularMovieAdapter(this, this);
             mPopularMoviesList.setAdapter(mAdapter);
-//            try {
-//                jsonMovieResponse = savedInstanceState.getString(BUNDLE_KEY);
-//                ArrayList<QueryResult> jsonMovieResponseArray = TmdbPopularMoviesJsonUtils.getMovieInfoFromJson(getApplicationContext(), jsonMovieResponse);
-//                mAdapter.setMovieData(jsonMovieResponseArray);
-//                Log.v(TAG, "movie data was set after recreating view");
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                queryDatabase();
-//            }
 
             try {
                 mMovies = (MovieResultsPage) getLastCustomNonConfigurationInstance();
             } catch (NullPointerException ex) {
                 ex.printStackTrace();
+            }
+
+            if (mMovies == null) {
+                queryDatabase();
             }
 
             mAdapter.setMovieData(mMovies);

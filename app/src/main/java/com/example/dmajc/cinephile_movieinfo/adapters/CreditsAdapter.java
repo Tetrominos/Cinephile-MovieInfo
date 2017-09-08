@@ -45,12 +45,14 @@ public class CreditsAdapter  extends RecyclerView.Adapter<CreditsAdapter.Credits
     public class CreditsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView mCreditImage;
         public TextView mCastName;
+        public TextView mCharacterName;
 
         public CreditsViewHolder(View view) {
             super (view);
             mCreditImage = (ImageView) view.findViewById(R.id.iv_credits);
             mCreditImage.setOnClickListener(this);
             mCastName = (TextView) view.findViewById(R.id.tv_credit_list_item_name);
+            mCharacterName = (TextView) view.findViewById(R.id.tv_credit_list_item_character_name);
         }
 
         @Override
@@ -83,6 +85,7 @@ public class CreditsAdapter  extends RecyclerView.Adapter<CreditsAdapter.Credits
         CastMember castMember = credits.get(position);
         Glide.with(context).load("https://image.tmdb.org/t/p/w300" + castMember.profile_path).placeholder(R.drawable.boss).centerCrop().into(holder.mCreditImage);
         holder.mCastName.setText(castMember.name);
+        holder.mCharacterName.setText(castMember.character);
     }
 
     @Override
