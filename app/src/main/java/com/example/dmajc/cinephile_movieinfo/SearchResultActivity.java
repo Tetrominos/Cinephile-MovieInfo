@@ -1,6 +1,5 @@
 package com.example.dmajc.cinephile_movieinfo;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -10,25 +9,17 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.dmajc.cinephile_movieinfo.adapters.PopularMovieAdapter;
+import com.example.dmajc.cinephile_movieinfo.adapters.MovieGridAdapter;
 import com.uwetrottmann.tmdb2.Tmdb;
-import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
-import com.uwetrottmann.tmdb2.services.MoviesService;
 import com.uwetrottmann.tmdb2.services.SearchService;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 import retrofit2.Call;
 
-public class SearchResultActivity extends AppCompatActivity implements PopularMovieAdapter.ListItemClickListener{
+public class SearchResultActivity extends AppCompatActivity implements MovieGridAdapter.ListItemClickListener{
 
     public final String TAG = "SearchResultsActivity";
     Tmdb tmdb = new Tmdb("22fae8008755665b5b342cdb43e177af");
@@ -37,7 +28,7 @@ public class SearchResultActivity extends AppCompatActivity implements PopularMo
     TextView searchResultTV;
     private MovieResultsPage mMovies;
 
-    private PopularMovieAdapter mAdapter;
+    private MovieGridAdapter mAdapter;
     private RecyclerView mPopularMoviesList;
 
 
@@ -64,7 +55,7 @@ public class SearchResultActivity extends AppCompatActivity implements PopularMo
 
             mPopularMoviesList.setHasFixedSize(true);
 
-            mAdapter = new PopularMovieAdapter(this, this);
+            mAdapter = new MovieGridAdapter(this, this);
 
             mPopularMoviesList.setAdapter(mAdapter);
 
@@ -90,7 +81,7 @@ public class SearchResultActivity extends AppCompatActivity implements PopularMo
 
             mPopularMoviesList.setHasFixedSize(true);
 
-            mAdapter = new PopularMovieAdapter(this, this);
+            mAdapter = new MovieGridAdapter(this, this);
 
             mPopularMoviesList.setAdapter(mAdapter);
 

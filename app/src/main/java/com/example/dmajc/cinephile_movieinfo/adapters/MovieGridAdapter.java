@@ -1,12 +1,6 @@
 package com.example.dmajc.cinephile_movieinfo.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,19 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.dmajc.cinephile_movieinfo.MainActivity;
-import com.example.dmajc.cinephile_movieinfo.MovieDetailActivity;
 import com.example.dmajc.cinephile_movieinfo.R;
-import com.uwetrottmann.tmdb2.entities.Genre;
-import com.uwetrottmann.tmdb2.entities.Image;
 import com.uwetrottmann.tmdb2.entities.Movie;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -39,7 +24,7 @@ import java.util.List;
  * Created by dmajc on 19.3.2017..
  */
 
-public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapter.PopularMovieViewHolder> {
+public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.PopularMovieViewHolder> {
 
     private int mNumberItems;
 
@@ -47,7 +32,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
         void onListItemClick(int clickedItemIndex, String titleText, String posterPath, String year, int movieID);
     }
 
-    public static final String TAG = "PopularMovieAdapter";
+    public static final String TAG = "MovieGridAdapter";
 
     private List<Movie> mMovieData;
 
@@ -57,7 +42,7 @@ public class PopularMovieAdapter extends RecyclerView.Adapter<PopularMovieAdapte
 
     final private ListItemClickListener mOnClickListener;
 
-    public PopularMovieAdapter(Context context, ListItemClickListener listener) {
+    public MovieGridAdapter(Context context, ListItemClickListener listener) {
         this.context = context;
         mOnClickListener = listener;
     }

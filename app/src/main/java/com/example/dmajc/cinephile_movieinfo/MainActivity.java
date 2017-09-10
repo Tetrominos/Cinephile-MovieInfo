@@ -1,20 +1,14 @@
 package com.example.dmajc.cinephile_movieinfo;
 
-import android.app.DownloadManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Movie;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.PersistableBundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -24,36 +18,28 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dmajc.cinephile_movieinfo.adapters.DrawerItemCustomAdapter;
-import com.example.dmajc.cinephile_movieinfo.adapters.PopularMovieAdapter;
+import com.example.dmajc.cinephile_movieinfo.adapters.MovieGridAdapter;
 import com.example.dmajc.cinephile_movieinfo.models.DataModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.uwetrottmann.tmdb2.Tmdb;
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage;
 import com.uwetrottmann.tmdb2.services.MoviesService;
 
-import org.json.JSONException;
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
 
 import retrofit2.Call;
 
-public class MainActivity extends AppCompatActivity implements PopularMovieAdapter.ListItemClickListener {
+public class MainActivity extends AppCompatActivity implements MovieGridAdapter.ListItemClickListener {
 
     private static final String TAG = "Main Activity";
     private static final String BUNDLE_KEY = "json_query_result";
     private static final int NUM_LIST_ITEMS = 100;
-    private PopularMovieAdapter mAdapter;
+    private MovieGridAdapter mAdapter;
     private RecyclerView mPopularMoviesList;
 
     private TextView mQueryResultAsJsonTV;
@@ -119,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
             }
             mPopularMoviesList.setLayoutManager(layoutManager);
             mPopularMoviesList.setHasFixedSize(true);
-            mAdapter = new PopularMovieAdapter(this, this);
+            mAdapter = new MovieGridAdapter(this, this);
             mPopularMoviesList.setAdapter(mAdapter);
 
             try {
@@ -148,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements PopularMovieAdapt
 
             mPopularMoviesList.setHasFixedSize(true);
 
-            mAdapter = new PopularMovieAdapter(this, this);
+            mAdapter = new MovieGridAdapter(this, this);
 
             mPopularMoviesList.setAdapter(mAdapter);
             queryDatabase();

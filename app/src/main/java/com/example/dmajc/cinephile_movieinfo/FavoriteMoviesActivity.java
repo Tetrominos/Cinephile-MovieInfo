@@ -3,7 +3,6 @@ package com.example.dmajc.cinephile_movieinfo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -15,18 +14,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dmajc.cinephile_movieinfo.adapters.DrawerItemCustomAdapter;
-import com.example.dmajc.cinephile_movieinfo.adapters.PopularMovieAdapter;
+import com.example.dmajc.cinephile_movieinfo.adapters.MovieGridAdapter;
 import com.example.dmajc.cinephile_movieinfo.models.DataModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,14 +39,13 @@ import com.uwetrottmann.tmdb2.services.MoviesService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 
-public class FavoriteMoviesActivity extends AppCompatActivity implements PopularMovieAdapter.ListItemClickListener{
+public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGridAdapter.ListItemClickListener{
 
     private static final String TAG = "FavoriteMoviesActivity";
-    private PopularMovieAdapter mAdapter;
+    private MovieGridAdapter mAdapter;
     private RecyclerView mFavoriteMoviesList;
     Toolbar toolbar;
 
@@ -146,7 +141,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
                 }
                 mFavoriteMoviesList.setLayoutManager(layoutManager);
                 mFavoriteMoviesList.setHasFixedSize(true);
-                mAdapter = new PopularMovieAdapter(this, this);
+                mAdapter = new MovieGridAdapter(this, this);
                 mFavoriteMoviesList.setAdapter(mAdapter);
 
                 try {
@@ -171,7 +166,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Popular
 
                 mFavoriteMoviesList.setHasFixedSize(true);
 
-                mAdapter = new PopularMovieAdapter(this, this);
+                mAdapter = new MovieGridAdapter(this, this);
 
                 mFavoriteMoviesList.setAdapter(mAdapter);
             }
