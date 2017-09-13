@@ -32,4 +32,7 @@
     <string name="action_skip_sign_in">Skip sign in</string>
     <string name="description">Description</string>
     <string name="biography">Biography</string>
+    <string name="facebook_app_id">515344965466115</string>
+    <string name="fb_login_protocol_scheme">fb515344965466115</string>
+    <!--<string name="default_web_client_id">807156032184-gdu9job55l57m07htsv1th5q02d5pobu.apps.googleusercontent.com</string>-->
 </resources>

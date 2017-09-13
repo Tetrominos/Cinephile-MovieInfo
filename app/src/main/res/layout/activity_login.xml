@@ -86,6 +86,20 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
+
+            <com.google.android.gms.common.SignInButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/google_sso_button"/>
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_sso_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="0dp" />
+
             <Button
                 android:id="@+id/email_skip_sign_in_button"
                 android:layout_width="match_parent"
