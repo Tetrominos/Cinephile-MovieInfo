@@ -26,8 +26,6 @@ import java.util.List;
 
 public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.PopularMovieViewHolder> {
 
-    private int mNumberItems;
-
     public interface ListItemClickListener {
         void onListItemClick(int clickedItemIndex, String titleText, String posterPath, String year, int movieID);
     }
@@ -35,8 +33,6 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Popu
     public static final String TAG = "MovieGridAdapter";
 
     private List<Movie> mMovieData;
-
-    //TODO 15.06.2017. check if this is necessary here
 
     private Context context;
 
@@ -75,35 +71,8 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Popu
         holder.listItemTitleTextView.setText(movie.title);
         holder.listItemRatingTextView.setText("★" + Double.toString(movie.vote_average));
 
-        //TODO Add movie genre_ids support and hardcode set of genre names and ids. This will be done by editing the wrapper library fro tmdb
-        //List<Genre> genres = movie.genres;
-        /*holder.listItemGenresTextView.setText("");
-        for (int i = 0; i < movie.genres.size() - 1; i++) {
-            holder.listItemGenresTextView.append(movie.genres.get(i).name + " | ");
-        }
-        holder.listItemGenresTextView.append(movie.genres.get(movie.genres.size() - 1).name);*/
-
         Glide.with(context).load("https://image.tmdb.org/t/p/w300" + movie.poster_path).placeholder(R.drawable.movie_night).into(holder.listItemImageView);
         Log.v(TAG, "image was set");
-        //to be able to toggle visibility of a particular RecyclerView item without it getting recycled, the below answer was used
-        //http://stackoverflow.com/questions/30584141/recyclerview-ambiguos-setvisibility-function-clicking-on-one-view-affects-multi
-        //original
-        /*if(movie.isClicked()){
-            relativeLayout.setVisibility(View.VISIBLE);
-        } else if (!movie.isClicked()) {
-            relativeLayout.setVisibility(View.INVISIBLE);
-        }
-        holder.listItemImageView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                movie.toggle();
-                if(movie.isClicked()){
-                    relativeLayout.setVisibility(View.VISIBLE);
-                } else if (!movie.isClicked()) {
-                    relativeLayout.setVisibility(View.INVISIBLE);
-                }
-            }
-        });*/
 
         relativeLayout.setVisibility(View.INVISIBLE);
         holder.listItemImageView.setOnClickListener(new View.OnClickListener(){
@@ -137,7 +106,6 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Popu
         public TextView listItemYearTextView;
         public TextView listItemRatingTextView;
         public ImageButton listItemImageButton;
-//        public ImageView listItemImageButtonView;
 
         public PopularMovieViewHolder(View itemView) {
             super(itemView);
@@ -149,8 +117,6 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Popu
             listItemImageButton.setOnClickListener(this);
             listItemYearTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_year);
             listItemRatingTextView = (TextView) itemView.findViewById(R.id.tv_movie_item_rating);
-//            listItemImageButtonView = (ImageView) itemView.findViewById(R.id.iv_media_type);
-//            listItemImageButtonView.setOnClickListener(this);
         }
 
         @Override
@@ -161,6 +127,9 @@ public class MovieGridAdapter extends RecyclerView.Adapter<MovieGridAdapter.Popu
     }
 
     public void setMovieData(MovieResultsPage movieData) {
+        if (movieData == null) {
+            return;
+        }
         mMovieData = movieData.results;
         notifyDataSetChanged();
     }

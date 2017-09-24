@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +46,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
     private static final String TAG = "FavoriteMoviesActivity";
     private MovieGridAdapter mAdapter;
     private RecyclerView mFavoriteMoviesList;
-    Toolbar toolbar;
 
     private String[] mNavigationDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
@@ -127,7 +125,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
             });
 
             if(null != savedInstanceState){
-            /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
                 mFavoriteMoviesList = (RecyclerView) findViewById(R.id.fav_movies_rv);
 
                 //different grid size according to orientation
@@ -152,7 +149,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
 
                 mAdapter.setMovieData(mMovies);
             } else {
-            /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
                 mFavoriteMoviesList = (RecyclerView) findViewById(R.id.fav_movies_rv);
 
                 GridLayoutManager layoutManager;
@@ -181,15 +177,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
     private void queryDatabase() {
         new FavoriteMoviesActivity.FetchMovieInfo().execute();
     }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.options_menu, menu);
-//
-//
-//        return true;
-//    }
 
     /**
      * Shows the progress UI and hides the login form.
@@ -230,24 +217,8 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
 
     public class FetchMovieInfo extends AsyncTask<Void, Void, MovieResultsPage> {
 
-        // COMPLETED (6) Override the doInBackground method to perform your network requests
         @Override
         protected MovieResultsPage doInBackground(Void... Params) {
-
-//            URL queryUrl = NetworkUtils.buildUrl();
-//
-//            try {
-//                jsonMovieResponse = NetworkUtils
-//                        .getResponseFromHttpUrl(queryUrl);
-//                Log.v(TAG, jsonMovieResponse);
-//
-//                ArrayList<QueryResult> jsonMovieResponseArray = TmdbPopularMoviesJsonUtils.getMovieInfoFromJson(getApplicationContext(), jsonMovieResponse);
-//
-//                return jsonMovieResponseArray;
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return null;
-//            }
 
             Call<com.uwetrottmann.tmdb2.entities.Movie> call = null;
             com.uwetrottmann.tmdb2.entities.MovieResultsPage movies = new MovieResultsPage();
@@ -275,17 +246,9 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
             return movies;
         }
 
-        // COMPLETED (7) Override the onPostExecute method to display the results of the network request
         @Override
         protected void onPostExecute(MovieResultsPage popularMovies) {
             if (popularMovies != null) {
-//                /*
-//                 * Iterate through the array and append the Strings to the TextView. The reason why we add
-//                 * the "\n\n\n" after the String is to give visual separation between each String in the
-//                 * TextView. Later, we'll learn about a better way to display lists of data.
-//                 */
-//                mAdapter.setMovieData(movieSearchData);
-//                Log.v(TAG, "movie data was set");
                 mMovies = popularMovies;
                 for (com.uwetrottmann.tmdb2.entities.Movie movie : popularMovies.results) {
                     Log.d(TAG, movie.title + " " + movie.poster_path);
@@ -295,14 +258,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
             }
         }
     }
-
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putString(BUNDLE_KEY, jsonMovieResponse);
-//        outState.putExtra
-//    }
-
 
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
@@ -315,7 +270,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }
-
     }
 
     private void selectItem(int position) {
@@ -342,7 +296,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -371,7 +324,6 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements MovieGr
 
     void setupDrawerToggle(){
         mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
-        //This is necessary to change the icon of the Drawer Toggle upon state change.
         mDrawerToggle.syncState();
     }
 

@@ -2,16 +2,12 @@ package com.example.dmajc.cinephile_movieinfo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.dmajc.cinephile_movieinfo.adapters.DrawerItemCustomAdapter;
 import com.example.dmajc.cinephile_movieinfo.models.DataModel;
@@ -107,7 +103,6 @@ public class AboutActivity extends AppCompatActivity  {
 
     void setupDrawerToggle(){
         mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
-        //This is necessary to change the icon of the Drawer Toggle upon state change.
         mDrawerToggle.syncState();
     }
 }

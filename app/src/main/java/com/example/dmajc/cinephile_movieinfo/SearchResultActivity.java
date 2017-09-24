@@ -23,9 +23,7 @@ public class SearchResultActivity extends AppCompatActivity implements MovieGrid
 
     public final String TAG = "SearchResultsActivity";
     Tmdb tmdb = new Tmdb("22fae8008755665b5b342cdb43e177af");
-//    MoviesService moviesService = tmdb.moviesService();
     SearchService searchService = tmdb.searchService();
-    TextView searchResultTV;
     private MovieResultsPage mMovies;
 
     private MovieGridAdapter mAdapter;
@@ -101,7 +99,6 @@ public class SearchResultActivity extends AppCompatActivity implements MovieGrid
 
     public class FetchMovieInfo extends AsyncTask<String, Void, MovieResultsPage> {
 
-        // COMPLETED (6) Override the doInBackground method to perform your network requests
         @Override
         protected MovieResultsPage doInBackground(String... queries) {
 
@@ -117,7 +114,6 @@ public class SearchResultActivity extends AppCompatActivity implements MovieGrid
             return movieResultsPage;
         }
 
-        // COMPLETED (7) Override the onPostExecute method to display the results of the network request
         @Override
         protected void onPostExecute(MovieResultsPage movieResultsPage) {
             if (movieResultsPage != null) {

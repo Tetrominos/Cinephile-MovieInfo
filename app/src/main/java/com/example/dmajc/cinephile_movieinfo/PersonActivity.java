@@ -2,7 +2,6 @@ package com.example.dmajc.cinephile_movieinfo;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -16,10 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.dmajc.cinephile_movieinfo.adapters.CreditsAdapter;
 import com.example.dmajc.cinephile_movieinfo.adapters.DrawerItemCustomAdapter;
 import com.example.dmajc.cinephile_movieinfo.adapters.PersonCreditsAdapter;
 import com.example.dmajc.cinephile_movieinfo.models.DataModel;
@@ -32,8 +29,6 @@ import com.uwetrottmann.tmdb2.services.PeopleService;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,7 +40,6 @@ public class PersonActivity extends AppCompatActivity implements PersonCreditsAd
     private int personID;
     private PersonCredits mPersonCredits;
     private Person mPerson;
-    private ImageView mImdbIV;
     private RecyclerView mCredits;
 
     private PersonCreditsAdapter ca;
@@ -131,8 +125,6 @@ public class PersonActivity extends AppCompatActivity implements PersonCreditsAd
 
 
     public class FetchPersonCredits extends AsyncTask<Void, Void, PersonCredits> {
-
-        // COMPLETED (6) Override the doInBackground method to perform your network requests
         @Override
         protected PersonCredits doInBackground(Void... params) {
             Call<PersonCredits> call = peopleService.movieCredits(personID, null);
@@ -146,7 +138,6 @@ public class PersonActivity extends AppCompatActivity implements PersonCreditsAd
             return personCredits;
         }
 
-        // COMPLETED (7) Override the onPostExecute method to display the results of the network request
         @Override
         protected void onPostExecute(PersonCredits personCredits) {
             if (personCredits != null) {
@@ -158,8 +149,6 @@ public class PersonActivity extends AppCompatActivity implements PersonCreditsAd
     }
 
     public class FetchPersonDetails extends AsyncTask<Void, Void, Person> {
-
-        // COMPLETED (6) Override the doInBackground method to perform your network requests
         @Override
         protected Person doInBackground(Void... params) {
             Call<Person> call = peopleService.summary(personID);
@@ -173,7 +162,6 @@ public class PersonActivity extends AppCompatActivity implements PersonCreditsAd
             return person;
         }
 
-        // COMPLETED (7) Override the onPostExecute method to display the results of the network request
         @Override
         protected void onPostExecute(Person person) {
             if (person != null) {

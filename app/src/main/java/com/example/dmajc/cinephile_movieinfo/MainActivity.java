@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements MovieGridAdapter.
         getSupportActionBar().setHomeButtonEnabled(true);
 
         if(null != savedInstanceState){
-            /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
             mPopularMoviesList = (RecyclerView) findViewById(R.id.popular_movies_rv);
 
             //different grid size according to orientation
@@ -120,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements MovieGridAdapter.
 
             mAdapter.setMovieData(mMovies);
         } else {
-            /*mQueryResultAsJsonTV = (TextView) findViewById(R.id.query_result_as_json_tv);*/
             mPopularMoviesList = (RecyclerView) findViewById(R.id.popular_movies_rv);
 
             GridLayoutManager layoutManager;
@@ -138,8 +136,6 @@ public class MainActivity extends AppCompatActivity implements MovieGridAdapter.
 
             mPopularMoviesList.setAdapter(mAdapter);
             queryDatabase();
-
-
         }
 
     }
@@ -193,24 +189,8 @@ public class MainActivity extends AppCompatActivity implements MovieGridAdapter.
 
     public class FetchMovieInfo extends AsyncTask<Void, Void, MovieResultsPage> {
 
-        // COMPLETED (6) Override the doInBackground method to perform your network requests
         @Override
         protected MovieResultsPage doInBackground(Void... Params) {
-
-//            URL queryUrl = NetworkUtils.buildUrl();
-//
-//            try {
-//                jsonMovieResponse = NetworkUtils
-//                        .getResponseFromHttpUrl(queryUrl);
-//                Log.v(TAG, jsonMovieResponse);
-//
-//                ArrayList<QueryResult> jsonMovieResponseArray = TmdbPopularMoviesJsonUtils.getMovieInfoFromJson(getApplicationContext(), jsonMovieResponse);
-//
-//                return jsonMovieResponseArray;
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return null;
-//            }
             Call<com.uwetrottmann.tmdb2.entities.MovieResultsPage> call = moviesService.popular(null, null);
             com.uwetrottmann.tmdb2.entities.MovieResultsPage movies = null;
             try {
@@ -222,17 +202,9 @@ public class MainActivity extends AppCompatActivity implements MovieGridAdapter.
             return movies;
         }
 
-        // COMPLETED (7) Override the onPostExecute method to display the results of the network request
         @Override
         protected void onPostExecute(MovieResultsPage popularMovies) {
             if (popularMovies != null) {
-//                /*
-//                 * Iterate through the array and append the Strings to the TextView. The reason why we add
-//                 * the "\n\n\n" after the String is to give visual separation between each String in the
-//                 * TextView. Later, we'll learn about a better way to display lists of data.
-//                 */
-//                mAdapter.setMovieData(movieSearchData);
-//                Log.v(TAG, "movie data was set");
                 mMovies = popularMovies;
                 for (com.uwetrottmann.tmdb2.entities.Movie movie : popularMovies.results) {
                     Log.d(TAG, movie.title + " " + movie.poster_path);
@@ -241,14 +213,6 @@ public class MainActivity extends AppCompatActivity implements MovieGridAdapter.
             }
         }
     }
-
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putString(BUNDLE_KEY, jsonMovieResponse);
-//        outState.putExtra
-//    }
-
 
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
@@ -288,7 +252,6 @@ public class MainActivity extends AppCompatActivity implements MovieGridAdapter.
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

@@ -39,7 +39,6 @@ import com.uwetrottmann.tmdb2.services.MoviesService;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 
@@ -207,8 +206,6 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
     }
 
     public class FetchMovieInfo extends AsyncTask<Void, Void, Movie> {
-
-        // COMPLETED (6) Override the doInBackground method to perform your network requests
         @Override
         protected Movie doInBackground(Void... params) {
             Call<Movie> call = moviesService.summary(movieID, null, null);
@@ -225,7 +222,6 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
             return movie;
         }
 
-        // COMPLETED (7) Override the onPostExecute method to display the results of the network request
         @Override
         protected void onPostExecute(Movie movie) {
             if (movie != null) {
@@ -258,8 +254,6 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
     }
 
     public class FetchMovieCredits extends AsyncTask<Void, Void, Credits> {
-
-        // COMPLETED (6) Override the doInBackground method to perform your network requests
         @Override
         protected Credits doInBackground(Void... params) {
             Call<Credits> call = moviesService.credits(movieID);
@@ -273,7 +267,6 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
             return credits;
         }
 
-        // COMPLETED (7) Override the onPostExecute method to display the results of the network request
         @Override
         protected void onPostExecute(Credits credits) {
             if (credits != null) {
@@ -336,7 +329,6 @@ public class MovieDetailActivity extends AppCompatActivity implements CreditsAda
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

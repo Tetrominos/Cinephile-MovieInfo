@@ -1,9 +1,7 @@
 package com.example.dmajc.cinephile_movieinfo.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.dmajc.cinephile_movieinfo.MovieDetailActivity;
-import com.example.dmajc.cinephile_movieinfo.PersonActivity;
 import com.example.dmajc.cinephile_movieinfo.R;
 import com.uwetrottmann.tmdb2.entities.CastMember;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
-import static android.support.v7.appcompat.R.styleable.View;
 
 /**
  * Created by dmajcenic on 20.06.17..
